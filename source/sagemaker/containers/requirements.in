@@ -1,0 +1,10 @@
+sagemaker
+numpy
+scikit-learn
+xgboost
+lightgbm
+shap
+joblib
+jsonschema
+boto3
+python-dotenv
