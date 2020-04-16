@@ -132,9 +132,14 @@ def delete_ecr_images(repository_name):
 def on_delete(event, __):
     # remove sagemaker endpoint
     stack_name = event["ResourceProperties"]["StackName"]
-    delete_sagemaker_model(stack_name)
-    delete_sagemaker_endpoint_config(stack_name)
-    delete_sagemaker_endpoint(stack_name)
+    endpoint_names = [
+        "{}-explainer".format(stack_name),
+        "{}-predictor".format(stack_name)
+    ]
+    for endpoint_name in endpoint_names:
+        delete_sagemaker_model(endpoint_name)
+        delete_sagemaker_endpoint_config(endpoint_name)
+        delete_sagemaker_endpoint(endpoint_name)
     # remove sagemaker endpoint config
     # remove files in s3
     s3_bucket = event["ResourceProperties"]["S3BucketName"]

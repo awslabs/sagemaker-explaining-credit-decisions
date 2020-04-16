@@ -2,7 +2,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
-from . import schemas
+from package.data import schemas
 
 
 NUMERICAL_TYPES = set(["boolean", "integer", "number"])

@@ -57,6 +57,7 @@ Resources:
           Action:
             - sagemaker:CreateTrainingJob
             - sagemaker:DescribeTrainingJob
+            - sagemaker:ListTags
           Resource:
             - !Sub "arn:aws:sagemaker:${AWS::Region}:${AWS::AccountId}:training-job/*"
         - Effect: Allow
@@ -78,6 +79,7 @@ Resources:
             - sagemaker:DescribeEndpoint
             - sagemaker:DeleteEndpoint
             - sagemaker:InvokeEndpoint
+            - sagemaker:UpdateEndpoint
           Resource:
             - !Sub "arn:aws:sagemaker:${AWS::Region}:${AWS::AccountId}:endpoint/*"
             - !Sub "arn:aws:sagemaker:${AWS::Region}:${AWS::AccountId}:endpoint-config/*"
@@ -229,8 +231,11 @@ Resources:
               # fix to upgrade `docutils` that was installed with `distutils` (hence pip can't uninstall)
               rm -rf /home/ec2-user/anaconda3/envs/python3/lib/python3.6/site-packages/docutils
               rm -f /home/ec2-user/anaconda3/envs/python3/lib/python3.6/site-packages/docutils-*
-              pip install -r ./requirements.txt
               pip install -r ./containers/requirements.txt
+              pip install -r ./requirements.txt
+              pip install -e .
+              rm -rf ./src/package.egg-info
+              EOF
       OnCreate:
         - Content:
             Fn::Base64: !Sub |
@@ -261,9 +266,9 @@ Resources:
           - id: W28
             reason: Custom name is more descriptive.
 Outputs:
-  SageMakerNotebookInstanceURL:
+  SageMakerNotebookInstanceSignOn:
     Description: Amazon SageMaker Notebook Instance URL to orchestrate AWS Glue and Amazon SageMaker Jobs.
-    Value: !Sub https://${SageMakerNotebookInstance.NotebookInstanceName}.notebook.${AWS::Region}.sagemaker.aws/tree
+    Value: !Sub "https://console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${SageMakerNotebookInstance.NotebookInstanceName}?view=classic"
   ECRRepository:
     Description: Amazon ECR Repository
     Value: !Ref ECRRepository

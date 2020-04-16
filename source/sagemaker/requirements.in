@@ -1,3 +1,5 @@
+sagemaker
 docker
 awscli
 bokeh
+pytest==3.10.1

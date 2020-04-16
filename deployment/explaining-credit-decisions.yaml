@@ -1,6 +1,9 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: |
+Description: >
+  (SA0003) -
+  sagemaker-explaining-credit-decisions:
   Used as root template for 'explaining credit decisions' stack.
+  Version 1
 Parameters:
   SageMakerNotebookInstanceType:
     Description: |
@@ -27,7 +30,7 @@ Resources:
   S3Bucket:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: !Ref AWS::StackName
+      BucketName: !Sub ${AWS::StackName}-${AWS::Region}-${AWS::AccountId}
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -96,6 +99,6 @@ Outputs:
   S3BucketName:
     Description: Amazon S3 Bucket that will be used to store credits data.
     Value: !Ref S3Bucket
-  SageMakerNotebookInstanceURL:
+  SageMakerNotebookInstanceSignOn:
     Description: Amazon SageMaker Notebook Instance URL to orchestrate AWS Glue and Amazon SageMaker Jobs.
-    Value: !GetAtt SageMakerStack.Outputs.SageMakerNotebookInstanceURL
+    Value: !GetAtt SageMakerStack.Outputs.SageMakerNotebookInstanceSignOn

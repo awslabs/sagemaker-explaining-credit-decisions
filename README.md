@@ -1,4 +1,4 @@
-# Explaining Credit Decisions
+# Explaining Credit Decisions with Amazon SageMaker
 
 Given the increasing complexity of machine learning models, the need for model explainability has been growing lately. Some governments have also introduced stricter regulations that mandate a *right to explanation* from machine learning models. In this solution, we take a look at how [Amazon SageMaker](https://aws.amazon.com/sagemaker/) can be used to explain individual predictions from machine learning models.
 
@@ -12,18 +12,11 @@ Given a set of input features used to describe a credit application (e.g. 'credi
 
 ## Getting Started
 
-You will need:
+You will need an AWS account. Sign up for an account [here](https://aws.amazon.com/). You will also need permission to use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) and to create all the resources detailed in the [architecture section](#architecture).
 
-1. an AWS account. Sign up for an account [here](https://aws.amazon.com/).
-2. permission to use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) and to create all the resources detailed in the [architecture section](#architecture).
-4. an AWS CloudFormation template. Copy this link or download [this file]((deployment/root-template.yaml)).
+[**Click here**](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-west-2.s3-us-west-2.amazonaws.com/Explaining-credit-decisions/deployment/explaining-credit-decisions.yaml&stackName=explaining-credit-decisions) to quick create the AWS CloudFormation stack. You should acknowledge the use of the two capabilities and click 'Create Stack'. Once stack creation has completed successfully, click the 'SageMakerNotebookInstanceSignOn' link on the 'Outputs' tab. Click 'notebook.ipynb' and follow the instruction inside the notebook.
 
 **Caution**: Cloning this GitHub repository and running the code manually could lead to unexpected issues! Use the AWS CloudFormation template. You'll get an Amazon SageMaker Notebook instance that's been correctly setup and configured to access the other resources in the solution.
-
-
-Watch the following YouTube video for a detailed walk-through on how to get started:
-
-[![Getting Started](docs/getting_started_youtube.png)](https://youtu.be/e2kzjZG4aVE)
 
 ## Contents
 
@@ -49,18 +42,24 @@ Watch the following YouTube video for a detailed walk-through on how to get star
       * `Dockerfile`: Describes custom Docker image hosted on Amazon ECR.
       * `requirements.txt`: Describes Python package requirements of the Docker image.
     * `src/`
-      * `entry_point.py`: Used by Amazon SageMaker for training and endpoints hosting.
-      * `entry_point_explanations.py`: Wraps the entry point above and adds a layer of explainability.
+      * `entry_point.py`: Used by Amazon SageMaker for training and endpoint hosting.
       * `package/`
         * `config.py`: Stores and retrieves project configuration. Optionally uses [dotenv](https://pypi.org/project/python-dotenv/).
-        * `containers.py`: Manages the Docker workflow of building and pushing images to Amazon ECR.
-        * `datasets.py`: Contains functions for reading datasets.
-        * `glue.py`: Manages the AWS Glue workflow of crawling datasets and running jobs.
-        * `preprocessing.py`: Scikit-learn steps to pre-process data for model.
-        * `schemas.py`: Schema creation and data validation.
-        * `training.py`: Scikit-learn steps to train and test model.
         * `utils.py`: Various utility functions for scripts and/or notebooks.
         * `visuals.py`: Contains explanation visualizations.
+        * `data/`
+          * `datasets.py`: Contains functions for reading datasets.
+          * `glue.py`: Manages the AWS Glue workflow of crawling datasets and running jobs.
+          * `schemas.py`: Schema creation and data validation.
+        * `machine_learning/`
+          * `preprocessing.py`: Scikit-learn steps to pre-process data for model.
+          * `training.py`: Scikit-learn steps to train and test model.
+        * `sagemaker/`
+          * `containers.py`: Manages the Docker workflow of building and pushing images to Amazon ECR.
+          * `estimator_fns.py`: Contains functions used by estimator.
+          * `explainer_fns.py`: Contains functions used by explainer.
+          * `predictor_fns.py`: Contains functions used by predictor.
+          * `predictors.py`: Custom predictor for using JSON endpoint from notebook.
 
 ## Architecture
 
@@ -90,11 +89,31 @@ All prices are subject to change. See the pricing webpage for each AWS service y
 
 ## Cleaning Up
 
-When you've finished with this solution, make sure that you have cleaned up any unwanted AWS resources. Most of this process can be automated with AWS CloudFormation, but there are a number of resources get created in the notebook that need to be cleaned up first.
+When you've finished with this solution, make sure that you delete all
+unwanted AWS resources. AWS CloudFormation can be used to automatically delete
+all standard resources that have been created by the solution and notebook.
+Go to the AWS CloudFormation Console, and delete the *parent* stack.
+Choosing to delete the parent stack will automatically delete the nested stacks.
 
-Watch the following YouTube video for a detailed walk-through on to clean up resources.
+**Caution**: You need to manually delete any extra resources that you may have
+created in this notebook. Some examples include, extra Amazon S3 buckets (to
+the solution's default bucket), extra Amazon SageMaker endpoints (using a
+custom name), and extra Amazon ECR repositories.
 
-[![Cleaning Up](docs/cleaning_up_youtube.png)](https://youtu.be/uxM-sXthhE0)
+## Customizing
+
+Our solution is easily customizable. You can customize the:
+
+* AWS Glue Crawler to crawl your own datasets.
+  * You can create AWS Glue [Connections](https://docs.aws.amazon.com/glue/latest/dg/console-connections.html) if your data is in a JDBC data store.
+* AWS Glue Job to process your own datasets.
+  * See `source/glue/etl_job.py`.
+  * AWS Glue [development endpoints](https://docs.aws.amazon.com/glue/latest/dg/dev-endpoint.html) can help when customizing the job.
+* Schemas to specify descriptions for your own features.
+  * See `source/sagemaker/notebook`.
+* Machine learning pipeline
+  * See `source/sagemaker/src/package/machine_learning/preprocessing.py`.
+  * See `source/sagemaker/src/package/machine_learning/training.py`.
 
 ## FAQ
 

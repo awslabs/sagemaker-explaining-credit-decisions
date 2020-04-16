@@ -1,8 +1,8 @@
 import boto3
 from time import sleep
 
-from . import config
-from . import schemas
+from package import config
+from package.data import schemas
 
 
 glue_client = boto3.client("glue", region_name=config.AWS_REGION)

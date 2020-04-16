@@ -84,10 +84,12 @@ def relationalize_people(people):
 
 
 def fill_finance_accounts(people):
-    people = people.na.fill({
-        "finance__accounts__checking__balance": "no_account"})
-    people = people.na.fill({
-        "finance__accounts__savings__balance": "no_account"})
+    people = people.na.fill(
+        {"finance__accounts__checking__balance": "no_account"}
+    )
+    people = people.na.fill(
+        {"finance__accounts__savings__balance": "no_account"}
+    )
     return people
 
 
@@ -187,11 +189,25 @@ def split_train_test(data, train_split=0.8):
     return data_train, data_test
 
 
-def split_data_label(data_train, data_test):
-    label_train = data_train.select("credit__default")
-    data_train = data_train.drop("credit__default")
-    label_test = data_test.select("credit__default")
-    data_test = data_test.drop("credit__default")
+def slice_protected(data_train, data_test):
+    protected = [
+        "personal__age",
+        "personal__gender",
+        "personal__relationship_status",
+    ]
+    protected_train = data_train.select(protected)
+    data_train = data_train.drop(*protected)
+    protected_test = data_test.select(protected)
+    data_test = data_test.drop(*protected)
+    return data_train, protected_train, data_test, protected_test
+
+
+def slice_label(data_train, data_test):
+    label = "credit__default"
+    label_train = data_train.select(label)
+    data_train = data_train.drop(label)
+    label_test = data_test.select(label)
+    data_test = data_test.drop(label)
     return data_train, label_train, data_test, label_test
 
 
@@ -246,17 +262,23 @@ def main():
     data = join_data(credits, people, contacts)
     data = transform_data(data)
 
-    # split data into train and test sets (and separate label)
+    # split data into train and test sets
     data = data.coalesce(1)
     data_train, data_test = split_train_test(data, train_split=0.8)
-    data_train, label_train, data_test, label_test = split_data_label(
+    # split data, protected characteristics and label
+    data_train, protected_train, data_test, protected_test = slice_protected(
+        data_train, data_test
+    )
+    data_train, label_train, data_test, label_test = slice_label(
         data_train, data_test
     )
 
     # save all sets
     save(data_train, "data_train", overwrite=True)
+    save(protected_train, "protected_train", overwrite=True)
     save(label_train, "label_train", overwrite=True)
     save(data_test, "data_test", overwrite=True)
+    save(protected_test, "protected_test", overwrite=True)
     save(label_test, "label_test", overwrite=True)
 
 

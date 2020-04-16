@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
-from . import utils
+from package import utils
 
 
 current_folder = utils.get_current_folder(globals())

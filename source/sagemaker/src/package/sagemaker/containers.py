@@ -5,7 +5,7 @@ from pathlib import Path
 import json
 import subprocess
 
-from . import config
+from package import config
 
 
 ecr_client = boto3.client("ecr", region_name=config.AWS_REGION)
