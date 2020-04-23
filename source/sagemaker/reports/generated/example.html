@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="../template/styles.css">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <!-- Bokeh JavaScript -->
+    
+
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.1.min.js" integrity="sha384-JpP8FXbgAZLkfur7LiK3j9AGBhHNIvF742meBJrjO2ShJDhCG2I1uVvW+0DUtrmc" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.1.min.js" integrity="sha384-xZlADit0Q04ISQEdKg2k3L4W9AwQBAuDs9nJL9fM/WwzL1tEU9VPNezOFX0nLEAz" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.0.1.min.js" integrity="sha384-4BuPRZkdMKSnj3zoxiNrQ86XgNw0rYmBOxe7nshquXwwcauupgBF2DHLVG1WuZlV" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-2.0.1.min.js" integrity="sha384-Dv1SQ87hmDqK6S5OhBf0bCuwAEvL5QYL0PuR/F1SPVhCS/r/abjkbpKDYL2zeM19" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    Bokeh.set_log_level("info");
+</script>
+    
+<script type="text/javascript">
+    (function() {
+          var fn = function() {
+            Bokeh.safely(function() {
+              (function(root) {
+                function embed_document(root) {
+                  
+                var docs_json = '{&quot;fcb4ba7d-df6a-4bbb-b41d-b16f82317ea8&quot;:{&quot;roots&quot;:{&quot;references&quot;:[{&quot;attributes&quot;:{&quot;factors&quot;:[&quot;finance&quot;,&quot;credit&quot;,&quot;employment&quot;,&quot;residence&quot;,&quot;contact&quot;,&quot;personal&quot;]},&quot;id&quot;:&quot;4953&quot;,&quot;type&quot;:&quot;FactorRange&quot;},{&quot;attributes&quot;:{&quot;line_alpha&quot;:{&quot;value&quot;:0.1},&quot;line_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;line_width&quot;:{&quot;value&quot;:18},&quot;x0&quot;:{&quot;field&quot;:&quot;segment_start_proba&quot;},&quot;x1&quot;:{&quot;field&quot;:&quot;segment_end_proba&quot;},&quot;y0&quot;:{&quot;field&quot;:&quot;name&quot;},&quot;y1&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;4982&quot;,&quot;type&quot;:&quot;Segment&quot;},{&quot;attributes&quot;:{&quot;data_source&quot;:{&quot;id&quot;:&quot;4949&quot;},&quot;glyph&quot;:{&quot;id&quot;:&quot;4986&quot;},&quot;hover_glyph&quot;:null,&quot;muted_glyph&quot;:null,&quot;nonselection_glyph&quot;:{&quot;id&quot;:&quot;4987&quot;},&quot;selection_glyph&quot;:null,&quot;view&quot;:{&quot;id&quot;:&quot;4989&quot;}},&quot;id&quot;:&quot;4988&quot;,&quot;type&quot;:&quot;GlyphRenderer&quot;},{&quot;attributes&quot;:{&quot;desired_num_ticks&quot;:7,&quot;num_minor_ticks&quot;:10},&quot;id&quot;:&quot;4960&quot;,&quot;type&quot;:&quot;LogTicker&quot;},{&quot;attributes&quot;:{&quot;axis_line_color&quot;:&quot;white&quot;,&quot;formatter&quot;:{&quot;id&quot;:&quot;4969&quot;},&quot;ticker&quot;:{&quot;id&quot;:&quot;4975&quot;},&quot;x_range_name&quot;:&quot;probability&quot;},&quot;id&quot;:&quot;4973&quot;,&quot;type&quot;:&quot;LogAxis&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5046&quot;,&quot;type&quot;:&quot;CategoricalTickFormatter&quot;},{&quot;attributes&quot;:{&quot;fill_alpha&quot;:{&quot;value&quot;:0.1},&quot;fill_color&quot;:{&quot;value&quot;:&quot;white&quot;},&quot;line_alpha&quot;:{&quot;value&quot;:0.1},&quot;line_color&quot;:{&quot;value&quot;:&quot;white&quot;},&quot;size&quot;:{&quot;units&quot;:&quot;screen&quot;,&quot;value&quot;:16},&quot;x&quot;:{&quot;field&quot;:&quot;segment_start_proba&quot;},&quot;y&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;4992&quot;,&quot;type&quot;:&quot;Diamond&quot;},{&quot;attributes&quot;:{&quot;text&quot;:&quot;&quot;},&quot;id&quot;:&quot;5043&quot;,&quot;type&quot;:&quot;Title&quot;},{&quot;attributes&quot;:{&quot;axis_line_color&quot;:&quot;white&quot;,&quot;formatter&quot;:{&quot;id&quot;:&quot;4969&quot;},&quot;ticker&quot;:{&quot;id&quot;:&quot;4960&quot;}},&quot;id&quot;:&quot;4959&quot;,&quot;type&quot;:&quot;LogAxis&quot;},{&quot;attributes&quot;:{&quot;source&quot;:{&quot;id&quot;:&quot;4949&quot;}},&quot;id&quot;:&quot;4994&quot;,&quot;type&quot;:&quot;CDSView&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;4955&quot;,&quot;type&quot;:&quot;LogScale&quot;},{&quot;attributes&quot;:{&quot;dimension&quot;:&quot;height&quot;,&quot;level&quot;:&quot;underlay&quot;,&quot;line_color&quot;:&quot;grey&quot;,&quot;line_dash&quot;:[2,4],&quot;location&quot;:0.2801872835846944},&quot;id&quot;:&quot;4976&quot;,&quot;type&quot;:&quot;Span&quot;},{&quot;attributes&quot;:{&quot;format&quot;:&quot;0.0 %&quot;},&quot;id&quot;:&quot;4969&quot;,&quot;type&quot;:&quot;NumeralTickFormatter&quot;},{&quot;attributes&quot;:{&quot;fill_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;line_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;size&quot;:{&quot;units&quot;:&quot;screen&quot;,&quot;value&quot;:16},&quot;x&quot;:{&quot;field&quot;:&quot;segment_end_proba&quot;},&quot;y&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;4986&quot;,&quot;type&quot;:&quot;Diamond&quot;},{&quot;attributes&quot;:{&quot;offset&quot;:450.0,&quot;text&quot;:&quot;28.02% baseline&quot;,&quot;text_color&quot;:{&quot;value&quot;:&quot;grey&quot;},&quot;text_font_style&quot;:&quot;italic&quot;},&quot;id&quot;:&quot;4977&quot;,&quot;type&quot;:&quot;Title&quot;},{&quot;attributes&quot;:{&quot;desired_num_ticks&quot;:7},&quot;id&quot;:&quot;4975&quot;,&quot;type&quot;:&quot;LogTicker&quot;},{&quot;attributes&quot;:{&quot;callback&quot;:null,&quot;tooltips&quot;:[[&quot;name&quot;,&quot;@name&quot;],[&quot;description&quot;,&quot;@description&quot;]]},&quot;id&quot;:&quot;4966&quot;,&quot;type&quot;:&quot;HoverTool&quot;},{&quot;attributes&quot;:{&quot;offset&quot;:376.4764191366948,&quot;text&quot;:&quot;26.08% predicted&quot;,&quot;text_color&quot;:{&quot;value&quot;:&quot;#69AE35&quot;},&quot;text_font_style&quot;:&quot;italic&quot;},&quot;id&quot;:&quot;4979&quot;,&quot;type&quot;:&quot;Title&quot;},{&quot;attributes&quot;:{&quot;data_source&quot;:{&quot;id&quot;:&quot;4949&quot;},&quot;glyph&quot;:{&quot;id&quot;:&quot;4981&quot;},&quot;hover_glyph&quot;:null,&quot;muted_glyph&quot;:null,&quot;nonselection_glyph&quot;:{&quot;id&quot;:&quot;4982&quot;},&quot;selection_glyph&quot;:null,&quot;view&quot;:{&quot;id&quot;:&quot;4984&quot;}},&quot;id&quot;:&quot;4983&quot;,&quot;type&quot;:&quot;GlyphRenderer&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;4964&quot;,&quot;type&quot;:&quot;CategoricalTicker&quot;},{&quot;attributes&quot;:{&quot;line_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;line_width&quot;:{&quot;value&quot;:18},&quot;x0&quot;:{&quot;field&quot;:&quot;segment_start_proba&quot;},&quot;x1&quot;:{&quot;field&quot;:&quot;segment_end_proba&quot;},&quot;y0&quot;:{&quot;field&quot;:&quot;name&quot;},&quot;y1&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;4981&quot;,&quot;type&quot;:&quot;Segment&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;4957&quot;,&quot;type&quot;:&quot;CategoricalScale&quot;},{&quot;attributes&quot;:{&quot;fill_color&quot;:{&quot;value&quot;:&quot;white&quot;},&quot;line_color&quot;:{&quot;value&quot;:&quot;white&quot;},&quot;size&quot;:{&quot;units&quot;:&quot;screen&quot;,&quot;value&quot;:16},&quot;x&quot;:{&quot;field&quot;:&quot;segment_start_proba&quot;},&quot;y&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;4991&quot;,&quot;type&quot;:&quot;Diamond&quot;},{&quot;attributes&quot;:{&quot;above&quot;:[{&quot;id&quot;:&quot;4973&quot;},{&quot;id&quot;:&quot;4979&quot;},{&quot;id&quot;:&quot;4995&quot;}],&quot;below&quot;:[{&quot;id&quot;:&quot;4959&quot;},{&quot;id&quot;:&quot;4977&quot;}],&quot;center&quot;:[{&quot;id&quot;:&quot;4962&quot;},{&quot;id&quot;:&quot;4965&quot;},{&quot;id&quot;:&quot;4976&quot;},{&quot;id&quot;:&quot;4978&quot;}],&quot;extra_x_ranges&quot;:{&quot;probability&quot;:{&quot;id&quot;:&quot;4970&quot;}},&quot;frame_height&quot;:150,&quot;frame_width&quot;:500,&quot;renderers&quot;:[{&quot;id&quot;:&quot;4983&quot;},{&quot;id&quot;:&quot;4988&quot;},{&quot;id&quot;:&quot;4993&quot;}],&quot;right&quot;:[{&quot;id&quot;:&quot;4963&quot;}],&quot;title&quot;:{&quot;id&quot;:&quot;5043&quot;},&quot;toolbar&quot;:{&quot;id&quot;:&quot;4967&quot;},&quot;toolbar_location&quot;:null,&quot;x_range&quot;:{&quot;id&quot;:&quot;4970&quot;},&quot;x_scale&quot;:{&quot;id&quot;:&quot;4955&quot;},&quot;y_range&quot;:{&quot;id&quot;:&quot;4953&quot;},&quot;y_scale&quot;:{&quot;id&quot;:&quot;4957&quot;}},&quot;id&quot;:&quot;4950&quot;,&quot;subtype&quot;:&quot;Figure&quot;,&quot;type&quot;:&quot;Plot&quot;},{&quot;attributes&quot;:{&quot;align&quot;:&quot;center&quot;,&quot;text&quot;:&quot;Credit Default Risk Score (%)&quot;},&quot;id&quot;:&quot;4995&quot;,&quot;type&quot;:&quot;Title&quot;},{&quot;attributes&quot;:{&quot;active_drag&quot;:&quot;auto&quot;,&quot;active_inspect&quot;:&quot;auto&quot;,&quot;active_multi&quot;:null,&quot;active_scroll&quot;:&quot;auto&quot;,&quot;active_tap&quot;:&quot;auto&quot;,&quot;tools&quot;:[{&quot;id&quot;:&quot;4966&quot;}]},&quot;id&quot;:&quot;4967&quot;,&quot;type&quot;:&quot;Toolbar&quot;},{&quot;attributes&quot;:{&quot;source&quot;:{&quot;id&quot;:&quot;4949&quot;}},&quot;id&quot;:&quot;4984&quot;,&quot;type&quot;:&quot;CDSView&quot;},{&quot;attributes&quot;:{&quot;dimension&quot;:&quot;height&quot;,&quot;level&quot;:&quot;underlay&quot;,&quot;line_color&quot;:&quot;#69AE35&quot;,&quot;line_dash&quot;:[2,4],&quot;location&quot;:0.26076639931214984},&quot;id&quot;:&quot;4978&quot;,&quot;type&quot;:&quot;Span&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5050&quot;,&quot;type&quot;:&quot;UnionRenderers&quot;},{&quot;attributes&quot;:{&quot;source&quot;:{&quot;id&quot;:&quot;4949&quot;}},&quot;id&quot;:&quot;4989&quot;,&quot;type&quot;:&quot;CDSView&quot;},{&quot;attributes&quot;:{&quot;data&quot;:{&quot;description&quot;:[&quot;All &#x27;finance&#x27; features combined.&quot;,&quot;All &#x27;credit&#x27; features combined.&quot;,&quot;All &#x27;employment&#x27; features combined.&quot;,&quot;All &#x27;residence&#x27; features combined.&quot;,&quot;All &#x27;contact&#x27; features combined.&quot;,&quot;All &#x27;personal&#x27; features combined.&quot;],&quot;descriptions&quot;:[&quot;All &#x27;finance&#x27; features combined.&quot;,&quot;All &#x27;credit&#x27; features combined.&quot;,&quot;All &#x27;employment&#x27; features combined.&quot;,&quot;All &#x27;residence&#x27; features combined.&quot;,&quot;All &#x27;contact&#x27; features combined.&quot;,&quot;All &#x27;personal&#x27; features combined.&quot;],&quot;name&quot;:[&quot;finance&quot;,&quot;credit&quot;,&quot;employment&quot;,&quot;residence&quot;,&quot;contact&quot;,&quot;personal&quot;],&quot;segment_color&quot;:[&quot;#69AE35&quot;,&quot;#FF5733&quot;,&quot;#FF5733&quot;,&quot;#69AE35&quot;,&quot;#FF5733&quot;,&quot;#69AE35&quot;],&quot;segment_end_proba&quot;:{&quot;__ndarray__&quot;:&quot;SXxOHinAxz9HUWZFTZrNPw/Y9w1O6dA/y0vqa/KY0D9APzyNZbDQP0A/PI1lsNA/&quot;,&quot;dtype&quot;:&quot;float64&quot;,&quot;shape&quot;:[6]},&quot;segment_start_proba&quot;:{&quot;__ndarray__&quot;:&quot;9RXwpJbu0T9JfE4eKcDHP0dRZkVNms0/D9j3DU7p0D/LS+pr8pjQP0A/PI1lsNA/&quot;,&quot;dtype&quot;:&quot;float64&quot;,&quot;shape&quot;:[6]},&quot;shap_value&quot;:{&quot;__ndarray__&quot;:&quot;tN/TDv8j4b+aBKc9QsvRP7I3/fArq8Y/b9KrTyr9mb8cLZA7Wnd+PwAAAAAAAAAA&quot;,&quot;dtype&quot;:&quot;float64&quot;,&quot;shape&quot;:[6]}},&quot;selected&quot;:{&quot;id&quot;:&quot;5049&quot;},&quot;selection_policy&quot;:{&quot;id&quot;:&quot;5050&quot;}},&quot;id&quot;:&quot;4949&quot;,&quot;type&quot;:&quot;ColumnDataSource&quot;},{&quot;attributes&quot;:{&quot;end&quot;:0.293887547704984,&quot;start&quot;:0.17564557120038746},&quot;id&quot;:&quot;4970&quot;,&quot;type&quot;:&quot;Range1d&quot;},{&quot;attributes&quot;:{&quot;axis_line_color&quot;:&quot;white&quot;,&quot;formatter&quot;:{&quot;id&quot;:&quot;5046&quot;},&quot;major_label_text_font_size&quot;:&quot;10pt&quot;,&quot;ticker&quot;:{&quot;id&quot;:&quot;4964&quot;}},&quot;id&quot;:&quot;4963&quot;,&quot;type&quot;:&quot;CategoricalAxis&quot;},{&quot;attributes&quot;:{&quot;axis&quot;:{&quot;id&quot;:&quot;4959&quot;},&quot;ticker&quot;:null},&quot;id&quot;:&quot;4962&quot;,&quot;type&quot;:&quot;Grid&quot;},{&quot;attributes&quot;:{&quot;axis&quot;:{&quot;id&quot;:&quot;4963&quot;},&quot;dimension&quot;:1,&quot;ticker&quot;:null},&quot;id&quot;:&quot;4965&quot;,&quot;type&quot;:&quot;Grid&quot;},{&quot;attributes&quot;:{&quot;fill_alpha&quot;:{&quot;value&quot;:0.1},&quot;fill_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;line_alpha&quot;:{&quot;value&quot;:0.1},&quot;line_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;size&quot;:{&quot;units&quot;:&quot;screen&quot;,&quot;value&quot;:16},&quot;x&quot;:{&quot;field&quot;:&quot;segment_end_proba&quot;},&quot;y&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;4987&quot;,&quot;type&quot;:&quot;Diamond&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5049&quot;,&quot;type&quot;:&quot;Selection&quot;},{&quot;attributes&quot;:{&quot;data_source&quot;:{&quot;id&quot;:&quot;4949&quot;},&quot;glyph&quot;:{&quot;id&quot;:&quot;4991&quot;},&quot;hover_glyph&quot;:null,&quot;muted_glyph&quot;:null,&quot;nonselection_glyph&quot;:{&quot;id&quot;:&quot;4992&quot;},&quot;selection_glyph&quot;:null,&quot;view&quot;:{&quot;id&quot;:&quot;4994&quot;}},&quot;id&quot;:&quot;4993&quot;,&quot;type&quot;:&quot;GlyphRenderer&quot;}],&quot;root_ids&quot;:[&quot;4950&quot;]},&quot;title&quot;:&quot;Bokeh Application&quot;,&quot;version&quot;:&quot;2.0.1&quot;}}';
+                var render_items = [{"docid":"fcb4ba7d-df6a-4bbb-b41d-b16f82317ea8","root_ids":["4950"],"roots":{"4950":"ed529164-b175-4012-b8fe-863fc2d63b17"}}];
+                root.Bokeh.embed.embed_items(docs_json, render_items);
+              
+                }
+                if (root.Bokeh !== undefined) {
+                  embed_document(root);
+                } else {
+                  var attempts = 0;
+                  var timer = setInterval(function(root) {
+                    if (root.Bokeh !== undefined) {
+                      clearInterval(timer);
+                      embed_document(root);
+                    } else {
+                      attempts++;
+                      if (attempts > 100) {
+                        clearInterval(timer);
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                      }
+                    }
+                  }, 10, root)
+                }
+              })(window);
+            });
+          };
+          if (document.readyState != "loading") fn();
+          else document.addEventListener("DOMContentLoaded", fn);
+        })();
+</script>
+    
+<script type="text/javascript">
+    (function() {
+          var fn = function() {
+            Bokeh.safely(function() {
+              (function(root) {
+                function embed_document(root) {
+                  
+                var docs_json = '{&quot;2a897136-d3c5-4f16-b7cd-e938567410f7&quot;:{&quot;roots&quot;:{&quot;references&quot;:[{&quot;attributes&quot;:{&quot;axis_line_color&quot;:&quot;white&quot;,&quot;formatter&quot;:{&quot;id&quot;:&quot;5016&quot;},&quot;ticker&quot;:{&quot;id&quot;:&quot;5022&quot;},&quot;x_range_name&quot;:&quot;probability&quot;},&quot;id&quot;:&quot;5020&quot;,&quot;type&quot;:&quot;LogAxis&quot;},{&quot;attributes&quot;:{&quot;desired_num_ticks&quot;:7},&quot;id&quot;:&quot;5022&quot;,&quot;type&quot;:&quot;LogTicker&quot;},{&quot;attributes&quot;:{&quot;dimension&quot;:&quot;height&quot;,&quot;level&quot;:&quot;underlay&quot;,&quot;line_color&quot;:&quot;grey&quot;,&quot;line_dash&quot;:[2,4],&quot;location&quot;:0.2801872835846944},&quot;id&quot;:&quot;5023&quot;,&quot;type&quot;:&quot;Span&quot;},{&quot;attributes&quot;:{&quot;offset&quot;:393.6757365894581,&quot;text&quot;:&quot;26.08% predicted&quot;,&quot;text_color&quot;:{&quot;value&quot;:&quot;#69AE35&quot;},&quot;text_font_style&quot;:&quot;italic&quot;},&quot;id&quot;:&quot;5026&quot;,&quot;type&quot;:&quot;Title&quot;},{&quot;attributes&quot;:{&quot;above&quot;:[{&quot;id&quot;:&quot;5020&quot;},{&quot;id&quot;:&quot;5026&quot;},{&quot;id&quot;:&quot;5042&quot;}],&quot;below&quot;:[{&quot;id&quot;:&quot;5006&quot;},{&quot;id&quot;:&quot;5024&quot;}],&quot;center&quot;:[{&quot;id&quot;:&quot;5009&quot;},{&quot;id&quot;:&quot;5012&quot;},{&quot;id&quot;:&quot;5023&quot;},{&quot;id&quot;:&quot;5025&quot;}],&quot;extra_x_ranges&quot;:{&quot;probability&quot;:{&quot;id&quot;:&quot;5017&quot;}},&quot;frame_height&quot;:275,&quot;frame_width&quot;:500,&quot;renderers&quot;:[{&quot;id&quot;:&quot;5030&quot;},{&quot;id&quot;:&quot;5035&quot;},{&quot;id&quot;:&quot;5040&quot;}],&quot;right&quot;:[{&quot;id&quot;:&quot;5010&quot;}],&quot;title&quot;:{&quot;id&quot;:&quot;5083&quot;},&quot;toolbar&quot;:{&quot;id&quot;:&quot;5014&quot;},&quot;toolbar_location&quot;:null,&quot;x_range&quot;:{&quot;id&quot;:&quot;5017&quot;},&quot;x_scale&quot;:{&quot;id&quot;:&quot;5002&quot;},&quot;y_range&quot;:{&quot;id&quot;:&quot;5000&quot;},&quot;y_scale&quot;:{&quot;id&quot;:&quot;5004&quot;}},&quot;id&quot;:&quot;4997&quot;,&quot;subtype&quot;:&quot;Figure&quot;,&quot;type&quot;:&quot;Plot&quot;},{&quot;attributes&quot;:{&quot;source&quot;:{&quot;id&quot;:&quot;4996&quot;}},&quot;id&quot;:&quot;5031&quot;,&quot;type&quot;:&quot;CDSView&quot;},{&quot;attributes&quot;:{&quot;fill_alpha&quot;:{&quot;value&quot;:0.1},&quot;fill_color&quot;:{&quot;value&quot;:&quot;white&quot;},&quot;line_alpha&quot;:{&quot;value&quot;:0.1},&quot;line_color&quot;:{&quot;value&quot;:&quot;white&quot;},&quot;size&quot;:{&quot;units&quot;:&quot;screen&quot;,&quot;value&quot;:16},&quot;x&quot;:{&quot;field&quot;:&quot;segment_start_proba&quot;},&quot;y&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;5039&quot;,&quot;type&quot;:&quot;Diamond&quot;},{&quot;attributes&quot;:{&quot;axis&quot;:{&quot;id&quot;:&quot;5010&quot;},&quot;dimension&quot;:1,&quot;ticker&quot;:null},&quot;id&quot;:&quot;5012&quot;,&quot;type&quot;:&quot;Grid&quot;},{&quot;attributes&quot;:{&quot;data_source&quot;:{&quot;id&quot;:&quot;4996&quot;},&quot;glyph&quot;:{&quot;id&quot;:&quot;5028&quot;},&quot;hover_glyph&quot;:null,&quot;muted_glyph&quot;:null,&quot;nonselection_glyph&quot;:{&quot;id&quot;:&quot;5029&quot;},&quot;selection_glyph&quot;:null,&quot;view&quot;:{&quot;id&quot;:&quot;5031&quot;}},&quot;id&quot;:&quot;5030&quot;,&quot;type&quot;:&quot;GlyphRenderer&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5090&quot;,&quot;type&quot;:&quot;UnionRenderers&quot;},{&quot;attributes&quot;:{&quot;source&quot;:{&quot;id&quot;:&quot;4996&quot;}},&quot;id&quot;:&quot;5041&quot;,&quot;type&quot;:&quot;CDSView&quot;},{&quot;attributes&quot;:{&quot;axis&quot;:{&quot;id&quot;:&quot;5006&quot;},&quot;ticker&quot;:null},&quot;id&quot;:&quot;5009&quot;,&quot;type&quot;:&quot;Grid&quot;},{&quot;attributes&quot;:{&quot;data_source&quot;:{&quot;id&quot;:&quot;4996&quot;},&quot;glyph&quot;:{&quot;id&quot;:&quot;5033&quot;},&quot;hover_glyph&quot;:null,&quot;muted_glyph&quot;:null,&quot;nonselection_glyph&quot;:{&quot;id&quot;:&quot;5034&quot;},&quot;selection_glyph&quot;:null,&quot;view&quot;:{&quot;id&quot;:&quot;5036&quot;}},&quot;id&quot;:&quot;5035&quot;,&quot;type&quot;:&quot;GlyphRenderer&quot;},{&quot;attributes&quot;:{&quot;axis_line_color&quot;:&quot;white&quot;,&quot;formatter&quot;:{&quot;id&quot;:&quot;5016&quot;},&quot;ticker&quot;:{&quot;id&quot;:&quot;5007&quot;}},&quot;id&quot;:&quot;5006&quot;,&quot;type&quot;:&quot;LogAxis&quot;},{&quot;attributes&quot;:{&quot;align&quot;:&quot;center&quot;,&quot;text&quot;:&quot;Credit Default Risk Score (%)&quot;},&quot;id&quot;:&quot;5042&quot;,&quot;type&quot;:&quot;Title&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5011&quot;,&quot;type&quot;:&quot;CategoricalTicker&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5004&quot;,&quot;type&quot;:&quot;CategoricalScale&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5002&quot;,&quot;type&quot;:&quot;LogScale&quot;},{&quot;attributes&quot;:{&quot;fill_alpha&quot;:{&quot;value&quot;:0.1},&quot;fill_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;line_alpha&quot;:{&quot;value&quot;:0.1},&quot;line_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;size&quot;:{&quot;units&quot;:&quot;screen&quot;,&quot;value&quot;:16},&quot;x&quot;:{&quot;field&quot;:&quot;segment_end_proba&quot;},&quot;y&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;5034&quot;,&quot;type&quot;:&quot;Diamond&quot;},{&quot;attributes&quot;:{&quot;data_source&quot;:{&quot;id&quot;:&quot;4996&quot;},&quot;glyph&quot;:{&quot;id&quot;:&quot;5038&quot;},&quot;hover_glyph&quot;:null,&quot;muted_glyph&quot;:null,&quot;nonselection_glyph&quot;:{&quot;id&quot;:&quot;5039&quot;},&quot;selection_glyph&quot;:null,&quot;view&quot;:{&quot;id&quot;:&quot;5041&quot;}},&quot;id&quot;:&quot;5040&quot;,&quot;type&quot;:&quot;GlyphRenderer&quot;},{&quot;attributes&quot;:{&quot;text&quot;:&quot;&quot;},&quot;id&quot;:&quot;5083&quot;,&quot;type&quot;:&quot;Title&quot;},{&quot;attributes&quot;:{&quot;axis_line_color&quot;:&quot;white&quot;,&quot;formatter&quot;:{&quot;id&quot;:&quot;5086&quot;},&quot;major_label_text_font_size&quot;:&quot;10pt&quot;,&quot;ticker&quot;:{&quot;id&quot;:&quot;5011&quot;}},&quot;id&quot;:&quot;5010&quot;,&quot;type&quot;:&quot;CategoricalAxis&quot;},{&quot;attributes&quot;:{&quot;line_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;line_width&quot;:{&quot;value&quot;:18},&quot;x0&quot;:{&quot;field&quot;:&quot;segment_start_proba&quot;},&quot;x1&quot;:{&quot;field&quot;:&quot;segment_end_proba&quot;},&quot;y0&quot;:{&quot;field&quot;:&quot;name&quot;},&quot;y1&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;5028&quot;,&quot;type&quot;:&quot;Segment&quot;},{&quot;attributes&quot;:{&quot;fill_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;line_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;size&quot;:{&quot;units&quot;:&quot;screen&quot;,&quot;value&quot;:16},&quot;x&quot;:{&quot;field&quot;:&quot;segment_end_proba&quot;},&quot;y&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;5033&quot;,&quot;type&quot;:&quot;Diamond&quot;},{&quot;attributes&quot;:{&quot;factors&quot;:[&quot;finance__accounts__checking__balance__no_account = 1.0&quot;,&quot;credit__amount = 6000.0&quot;,&quot;credit__purpose__used_car = 1.0&quot;,&quot;credit__duration = 36.0&quot;,&quot;employment__duration = 0.0&quot;,&quot;finance__accounts__savings__balance__low = 1.0&quot;,&quot;finance__repayment_history__good = 1.0&quot;,&quot;finance__credits__other_banks = 0.0&quot;,&quot;finance__repayment_history__very_poor = 0.0&quot;,&quot;finance__accounts__savings__balance__no_account = 0.0&quot;,&quot;other_features&quot;]},&quot;id&quot;:&quot;5000&quot;,&quot;type&quot;:&quot;FactorRange&quot;},{&quot;attributes&quot;:{&quot;end&quot;:0.29814819821757754,&quot;start&quot;:0.15056919753389497},&quot;id&quot;:&quot;5017&quot;,&quot;type&quot;:&quot;Range1d&quot;},{&quot;attributes&quot;:{&quot;offset&quot;:450.0,&quot;text&quot;:&quot;28.02% baseline&quot;,&quot;text_color&quot;:{&quot;value&quot;:&quot;grey&quot;},&quot;text_font_style&quot;:&quot;italic&quot;},&quot;id&quot;:&quot;5024&quot;,&quot;type&quot;:&quot;Title&quot;},{&quot;attributes&quot;:{&quot;fill_color&quot;:{&quot;value&quot;:&quot;white&quot;},&quot;line_color&quot;:{&quot;value&quot;:&quot;white&quot;},&quot;size&quot;:{&quot;units&quot;:&quot;screen&quot;,&quot;value&quot;:16},&quot;x&quot;:{&quot;field&quot;:&quot;segment_start_proba&quot;},&quot;y&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;5038&quot;,&quot;type&quot;:&quot;Diamond&quot;},{&quot;attributes&quot;:{&quot;source&quot;:{&quot;id&quot;:&quot;4996&quot;}},&quot;id&quot;:&quot;5036&quot;,&quot;type&quot;:&quot;CDSView&quot;},{&quot;attributes&quot;:{&quot;format&quot;:&quot;0.0 %&quot;},&quot;id&quot;:&quot;5016&quot;,&quot;type&quot;:&quot;NumeralTickFormatter&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5089&quot;,&quot;type&quot;:&quot;Selection&quot;},{&quot;attributes&quot;:{&quot;desired_num_ticks&quot;:7,&quot;num_minor_ticks&quot;:10},&quot;id&quot;:&quot;5007&quot;,&quot;type&quot;:&quot;LogTicker&quot;},{&quot;attributes&quot;:{&quot;dimension&quot;:&quot;height&quot;,&quot;level&quot;:&quot;underlay&quot;,&quot;line_color&quot;:&quot;#69AE35&quot;,&quot;line_dash&quot;:[2,4],&quot;location&quot;:0.26076639931214984},&quot;id&quot;:&quot;5025&quot;,&quot;type&quot;:&quot;Span&quot;},{&quot;attributes&quot;:{&quot;callback&quot;:null,&quot;tooltips&quot;:[[&quot;name&quot;,&quot;@name&quot;],[&quot;description&quot;,&quot;@description&quot;]]},&quot;id&quot;:&quot;5013&quot;,&quot;type&quot;:&quot;HoverTool&quot;},{&quot;attributes&quot;:{&quot;data&quot;:{&quot;description&quot;:[&quot;Customer&#x27;s checking account balance is &#x27;no_account&#x27; if value is 1.0.&quot;,&quot;Amount of money requested as part of credit application (in EUR).&quot;,&quot;Customer&#x27;s reason for requiring credit is &#x27;used_car&#x27; if value is 1.0.&quot;,&quot;Amount of time the credit is requested for (in months).&quot;,&quot;Amount of time the customer has been employed at their current employer (in years).&quot;,&quot;Customer&#x27;s savings account balance is &#x27;low&#x27; if value is 1.0.&quot;,&quot;Quality of the customer&#x27;s repayment history is &#x27;good&#x27; if value is 1.0.&quot;,&quot;Count of credits the customer has at other banks.&quot;,&quot;Quality of the customer&#x27;s repayment history is &#x27;very_poor&#x27; if value is 1.0.&quot;,&quot;Customer&#x27;s savings account balance is &#x27;no_account&#x27; if value is 1.0.&quot;,&quot;All other features combined.&quot;],&quot;descriptions&quot;:[&quot;Customer&#x27;s checking account balance is &#x27;no_account&#x27; if value is 1.0.&quot;,&quot;Amount of money requested as part of credit application (in EUR).&quot;,&quot;Customer&#x27;s reason for requiring credit is &#x27;used_car&#x27; if value is 1.0.&quot;,&quot;Amount of time the credit is requested for (in months).&quot;,&quot;Amount of time the customer has been employed at their current employer (in years).&quot;,&quot;Customer&#x27;s savings account balance is &#x27;low&#x27; if value is 1.0.&quot;,&quot;Quality of the customer&#x27;s repayment history is &#x27;good&#x27; if value is 1.0.&quot;,&quot;Count of credits the customer has at other banks.&quot;,&quot;Quality of the customer&#x27;s repayment history is &#x27;very_poor&#x27; if value is 1.0.&quot;,&quot;Customer&#x27;s savings account balance is &#x27;no_account&#x27; if value is 1.0.&quot;,&quot;All other features combined.&quot;],&quot;name&quot;:[&quot;finance__accounts__checking__balance__no_account = 1.0&quot;,&quot;credit__amount = 6000.0&quot;,&quot;credit__purpose__used_car = 1.0&quot;,&quot;credit__duration = 36.0&quot;,&quot;employment__duration = 0.0&quot;,&quot;finance__accounts__savings__balance__low = 1.0&quot;,&quot;finance__repayment_history__good = 1.0&quot;,&quot;finance__credits__other_banks = 0.0&quot;,&quot;finance__repayment_history__very_poor = 0.0&quot;,&quot;finance__accounts__savings__balance__no_account = 0.0&quot;,&quot;other_features&quot;],&quot;segment_color&quot;:[&quot;#69AE35&quot;,&quot;#FF5733&quot;,&quot;#69AE35&quot;,&quot;#FF5733&quot;,&quot;#FF5733&quot;,&quot;#FF5733&quot;,&quot;#FF5733&quot;,&quot;#69AE35&quot;,&quot;#FF5733&quot;,&quot;#FF5733&quot;,&quot;#69AE35&quot;],&quot;segment_end_proba&quot;:{&quot;__ndarray__&quot;:&quot;4ARUN3C/xD9xbY0vJGzLP2Nj3MAN0sY/iDgw2Ttwyj9Yve6nrVjOP81rKU2zXdA/TR3ORP520T+Oi9AtDofQP+Jr8Knn3tA/PmZ+p0k00T9APzyNZbDQPw==&quot;,&quot;dtype&quot;:&quot;float64&quot;,&quot;shape&quot;:[11]},&quot;segment_start_proba&quot;:{&quot;__ndarray__&quot;:&quot;9RXwpJbu0T/gBFQ3cL/EP3FtjS8kbMs/Y2PcwA3Sxj+KODDZO3DKP1i97qetWM4/zWspTbNd0D9NHc5E/nbRP46L0C0Oh9A/4mvwqefe0D8+Zn6nSTTRPw==&quot;,&quot;dtype&quot;:&quot;float64&quot;,&quot;shape&quot;:[11]},&quot;shap_value&quot;:{&quot;__ndarray__&quot;:&quot;f/QMAu1f5r/f7i29kfbVP10VaWeEPc2/Ayp9vQlRxz+yN/3wK6vGP6Y5rvprtLk/l9j1ZBWctj9Aog+5vTmzv6tNOacAeZw/BvcQ6KZRmz/uPSgWNyylvw==&quot;,&quot;dtype&quot;:&quot;float64&quot;,&quot;shape&quot;:[11]}},&quot;selected&quot;:{&quot;id&quot;:&quot;5089&quot;},&quot;selection_policy&quot;:{&quot;id&quot;:&quot;5090&quot;}},&quot;id&quot;:&quot;4996&quot;,&quot;type&quot;:&quot;ColumnDataSource&quot;},{&quot;attributes&quot;:{&quot;active_drag&quot;:&quot;auto&quot;,&quot;active_inspect&quot;:&quot;auto&quot;,&quot;active_multi&quot;:null,&quot;active_scroll&quot;:&quot;auto&quot;,&quot;active_tap&quot;:&quot;auto&quot;,&quot;tools&quot;:[{&quot;id&quot;:&quot;5013&quot;}]},&quot;id&quot;:&quot;5014&quot;,&quot;type&quot;:&quot;Toolbar&quot;},{&quot;attributes&quot;:{&quot;line_alpha&quot;:{&quot;value&quot;:0.1},&quot;line_color&quot;:{&quot;field&quot;:&quot;segment_color&quot;},&quot;line_width&quot;:{&quot;value&quot;:18},&quot;x0&quot;:{&quot;field&quot;:&quot;segment_start_proba&quot;},&quot;x1&quot;:{&quot;field&quot;:&quot;segment_end_proba&quot;},&quot;y0&quot;:{&quot;field&quot;:&quot;name&quot;},&quot;y1&quot;:{&quot;field&quot;:&quot;name&quot;}},&quot;id&quot;:&quot;5029&quot;,&quot;type&quot;:&quot;Segment&quot;},{&quot;attributes&quot;:{},&quot;id&quot;:&quot;5086&quot;,&quot;type&quot;:&quot;CategoricalTickFormatter&quot;}],&quot;root_ids&quot;:[&quot;4997&quot;]},&quot;title&quot;:&quot;Bokeh Application&quot;,&quot;version&quot;:&quot;2.0.1&quot;}}';
+                var render_items = [{"docid":"2a897136-d3c5-4f16-b7cd-e938567410f7","root_ids":["4997"],"roots":{"4997":"2ba55a4b-5c43-41e7-b2f0-5fb6564ee3d6"}}];
+                root.Bokeh.embed.embed_items(docs_json, render_items);
+              
+                }
+                if (root.Bokeh !== undefined) {
+                  embed_document(root);
+                } else {
+                  var attempts = 0;
+                  var timer = setInterval(function(root) {
+                    if (root.Bokeh !== undefined) {
+                      clearInterval(timer);
+                      embed_document(root);
+                    } else {
+                      attempts++;
+                      if (attempts > 100) {
+                        clearInterval(timer);
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                      }
+                    }
+                  }, 10, root)
+                }
+              })(window);
+            });
+          };
+          if (document.readyState != "loading") fn();
+          else document.addEventListener("DOMContentLoaded", fn);
+        })();
+</script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+    <title>Explanation Report</title>
+</head>
+
+<body>
+
+    <div class="container py-5">
+
+        <div class="jumbotron bg-dark text-white">
+            <div class="px-0">
+                <h1 class="display-4 font-italic">Explanation Report</h1>
+                <p class="lead my-3">
+                    Credit default risk prediction explained using SHapley Additive exPlanations (SHAP).
+                </p>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <h6 class="card-header m-0 font-weight-bold">
+                Summary Explanation
+                <div class="float-sm-right" width="10px" data-toggle="modal" data-target="#exampleModal">
+                    <svg class="bi bi-info-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd" /><path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" /><circle cx="8" cy="4.5" r="1" /></svg>
+                </div>
+            </h6>
+            <div class="card-body" align="center" style="overflow-x:scroll;">
+                
+<div class="bk-root" id="ed529164-b175-4012-b8fe-863fc2d63b17" data-root-id="4950"></div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <h6 class="card-header m-0 font-weight-bold">
+                Detailed Explanation
+                <div class="float-sm-right" width="10px" data-toggle="modal" data-target="#exampleModal">
+                    <svg class="bi bi-info-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd" /><path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" /><circle cx="8" cy="4.5" r="1" /></svg>
+                </div>
+            </h6>
+            <div class="card-body" align="center" style="overflow-x:scroll;">
+                
+<div class="bk-root" id="2ba55a4b-5c43-41e7-b2f0-5fb6564ee3d6" data-root-id="4997"></div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold">
+                    Input Features
+                </h6>
+            </div>
+            <div class="card-body" align="center" style="overflow-x:scroll;">
+                <table border="0" class="dataframe table table-hover table-sm table-striped">
+  <thead>
+    <tr style="text-align: left;">
+      <th>feature_names</th>
+      <th>feature_values</th>
+      <th>shap_values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>finance__accounts__checking__balance__no_account</td>
+      <td>1.0</td>
+      <td>-0.699210</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__used_car</td>
+      <td>1.0</td>
+      <td>-0.228440</td>
+    </tr>
+    <tr>
+      <td>finance__credits__other_banks</td>
+      <td>0.0</td>
+      <td>-0.075100</td>
+    </tr>
+    <tr>
+      <td>residence__type__own</td>
+      <td>1.0</td>
+      <td>-0.015360</td>
+    </tr>
+    <tr>
+      <td>credit__installment_rate</td>
+      <td>3.0</td>
+      <td>-0.014757</td>
+    </tr>
+    <tr>
+      <td>finance__accounts__checking__balance__negative</td>
+      <td>0.0</td>
+      <td>-0.013380</td>
+    </tr>
+    <tr>
+      <td>residence__type__rent</td>
+      <td>0.0</td>
+      <td>-0.010019</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__new_car</td>
+      <td>0.0</td>
+      <td>-0.005958</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__education</td>
+      <td>0.0</td>
+      <td>-0.004570</td>
+    </tr>
+    <tr>
+      <td>finance__credits__other_stores</td>
+      <td>0.0</td>
+      <td>-0.001112</td>
+    </tr>
+    <tr>
+      <td>employment__type__labourer</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>employment__type__management</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>employment__type__professional</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>employment__type__unemployed</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__accounts__checking__balance__high</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__other_assets__car_or_other</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>residence__type__free</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__accounts__savings__balance__high</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__accounts__savings__balance__medium</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__repayment_history__poor</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__accounts__savings__balance__very_high</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__other_assets__none</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__accounts__checking__balance__low</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>employment__permit__foreign</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__repairs</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__re-training</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__other</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__furniture</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__electronics</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__business</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>credit__purpose__appliances</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>residence__duration</td>
+      <td>4.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>personal__num_dependents</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>credit__coapplicant</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__credits__this_bank</td>
+      <td>1.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>employment__permit__domestic</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>finance__other_assets__life_insurance</td>
+      <td>1.0</td>
+      <td>0.003577</td>
+    </tr>
+    <tr>
+      <td>finance__other_assets__real_estate</td>
+      <td>0.0</td>
+      <td>0.006368</td>
+    </tr>
+    <tr>
+      <td>credit__guarantor</td>
+      <td>0.0</td>
+      <td>0.006421</td>
+    </tr>
+    <tr>
+      <td>contact__has_telephone</td>
+      <td>0.0</td>
+      <td>0.007438</td>
+    </tr>
+    <tr>
+      <td>finance__accounts__savings__balance__no_account</td>
+      <td>0.0</td>
+      <td>0.026679</td>
+    </tr>
+    <tr>
+      <td>finance__repayment_history__very_poor</td>
+      <td>0.0</td>
+      <td>0.027805</td>
+    </tr>
+    <tr>
+      <td>finance__repayment_history__good</td>
+      <td>1.0</td>
+      <td>0.088319</td>
+    </tr>
+    <tr>
+      <td>finance__accounts__savings__balance__low</td>
+      <td>1.0</td>
+      <td>0.100409</td>
+    </tr>
+    <tr>
+      <td>employment__duration</td>
+      <td>0.0</td>
+      <td>0.177099</td>
+    </tr>
+    <tr>
+      <td>credit__duration</td>
+      <td>36.0</td>
+      <td>0.182161</td>
+    </tr>
+    <tr>
+      <td>credit__amount</td>
+      <td>6000.0</td>
+      <td>0.343174</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Waterfall Chart</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            A waterfall chart can be used to show the cumulative effect of each feature. Starting with
+                            the baseline probability for credit defaults (at the bottom of the chart), we can see how
+                            each additional feature shifts the probability. Green arrows indicate that the feature <span
+                                style="color:#69AE35"><i>decreased</i> the predicted credit default
+                                risk</span> for the individual credit application. While red arrows indicate that the
+                            feature <span style="color:#FF5733"><i>increased</i> the
+                                predicted credit default risk</span> for the individual credit application. After all
+                            features have been considered, we reach the final predicted credit default risk (at the top
+                            of the chart).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

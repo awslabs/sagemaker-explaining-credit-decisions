@@ -2,4 +2,5 @@ sagemaker
 docker
 awscli
 bokeh
+jinja2
 pytest==3.10.1
