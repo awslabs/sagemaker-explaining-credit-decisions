@@ -2,6 +2,12 @@
 
 Given the increasing complexity of machine learning models, the need for model explainability has been growing lately. Some governments have also introduced stricter regulations that mandate a *right to explanation* from machine learning models. In this solution, we take a look at how [Amazon SageMaker](https://aws.amazon.com/sagemaker/) can be used to explain individual predictions from machine learning models.
 
+<p align="center">
+  <a href="https://youtu.be/fGafEouuc1Q">
+    <img src="docs/introduction_youtube.png" width="600px">
+  </a>
+</p>
+
 As an example application, we classify credit applications and predict whether the credit would be paid back or not (often called a *credit default*). More context can be found [here](#why-is-credit-default-prediction-useful-and-how-does-explainability-help). We train a tree-based [LightGBM](https://lightgbm.readthedocs.io/en/latest/) model using [Amazon SageMaker](https://aws.amazon.com/sagemaker/) and explain its predictions using a game theoretic approach called [SHAP](https://github.com/slundberg/shap) (SHapley Additive exPlanations).
 
 Ultimately, we deploy an endpoint that returns the model prediction and the associated explanation.
@@ -12,7 +18,7 @@ Given a set of input features used to describe a credit application (e.g. `credi
 
 <p align="center">
   <a href="http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/source/sagemaker/reports/generated/example.html">
-    <img src="docs/explanations.png" width="800px">
+    <img src="docs/explanations.png" width="750px">
   </a>
 </p>
 
@@ -46,6 +52,12 @@ Click on one of the following buttons to *quick create* the AWS CloudFormation S
 You should acknowledge the use of the two capabilities and click 'Create Stack'. Once stack creation has completed successfully, click the 'SageMakerNotebookInstanceSignOn' link on the 'Outputs' tab. Click 'notebook.ipynb' and follow the instruction inside the notebook.
 
 **Caution**: Cloning this GitHub repository and running the code manually could lead to unexpected issues! Use the AWS CloudFormation template. You'll get an Amazon SageMaker Notebook instance that's been correctly setup and configured to access the other resources in the solution.
+
+<p align="center">
+  <a href="https://youtu.be/Fictwb6vCRg">
+    <img src="docs/getting_started_youtube.png" width="600px">
+  </a>
+</p>
 
 ## Contents
 
@@ -101,7 +113,9 @@ As part of the solution, the following services are used:
 * [Amazon ECR](https://aws.amazon.com/ecr/): Used to store the custom Scikit-learn + LightGBM training environment.
 * [Amazon SageMaker Endpoint](https://aws.amazon.com/sagemaker/): Used to deploy the trained model and SHAP explainer.
 
-![Architecture Diagram](docs/architecture_diagram.png)
+<p align="center">
+  <img src="docs/architecture_diagram.png" width="700px">
+</p>
 
 ## Costs
 
@@ -128,6 +142,12 @@ Choosing to delete the parent stack will automatically delete the nested stacks.
 created in this notebook. Some examples include, extra Amazon S3 buckets (to
 the solution's default bucket), extra Amazon SageMaker endpoints (using a
 custom name), and extra Amazon ECR repositories.
+
+<p align="center">
+  <a href="https://youtu.be/oP_gVFPzNAE">
+    <img src="docs/cleaning_up_youtube.png" width="600px">
+  </a>
+</p>
 
 ## Customizing
 

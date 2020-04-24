@@ -1,6 +1,6 @@
 buildspec.yml
 .viperlightignore
 .viperlightrc
-build/
-source/codebuild/
-source/sagemaker/tests/
+build
+source/codebuild
+source/sagemaker/tests
