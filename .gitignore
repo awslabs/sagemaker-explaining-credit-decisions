@@ -2,5 +2,8 @@ buildspec.yml
 .viperlightignore
 .viperlightrc
 build
-source/codebuild
-source/sagemaker/tests
+site-packages
+codebuild
+sagemaker/dev_tools
+sagemaker/tests
+glue/json-serde.jar

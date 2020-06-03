@@ -1,0 +1,7 @@
+sagemaker
+docker
+awscli
+bokeh
+jinja2
+streamlit
+pytest==3.10.1

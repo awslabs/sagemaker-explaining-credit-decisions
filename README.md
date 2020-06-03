@@ -14,10 +14,10 @@ Ultimately, we deploy an endpoint that returns the model prediction and the asso
 
 **What is an explanation?**
 
-Given a set of input features used to describe a credit application (e.g. `credit__amount` and `employment__duration`), an explanation reflects the contribution of each feature to the model's final prediction. We include a number of visualizations that can be used to see how each feature pushes up or down the risk of credit default for an individual application. Click on the screenshot below to see an example of an [exported explanation report](http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/source/sagemaker/reports/generated/example.html).
+Given a set of input features used to describe a credit application (e.g. `credit__amount` and `employment__duration`), an explanation reflects the contribution of each feature to the model's final prediction. We include a number of visualizations that can be used to see how each feature pushes up or down the risk of credit default for an individual application. Click on the screenshot below to see an example of an [exported explanation report](http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/sagemaker/reports/generated/example.html).
 
 <p align="center">
-  <a href="http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/source/sagemaker/reports/generated/example.html">
+  <a href="http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/sagemaker/reports/generated/example.html">
     <img src="docs/explanations.png" width="750px">
   </a>
 </p>
@@ -42,7 +42,7 @@ Click on one of the following buttons to *quick create* the AWS CloudFormation S
     <td>Oregon</td>
     <td>us-west-2</td>
     <td align="center">
-      <a href="https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-west-2.s3-us-west-2.amazonaws.com/Explaining-credit-decisions/deployment/explaining-credit-decisions.yaml&stackName=explaining-credit-decisions">
+      <a href="https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-west-2.s3-us-west-2.amazonaws.com/Explaining-credit-decisions/cloudformation/packaged.yaml&stackName=explaining-credit-decisions">
         <img src="docs/launch_button.svg" height="30">
       </a>
     </td>
@@ -61,46 +61,47 @@ You should acknowledge the use of the two capabilities and click 'Create Stack'.
 
 ## Contents
 
-* `dataset/`
-  * `german.data`: Original [German Credit Dataset](http://archive.ics.uci.edu/ml/datasets/statlog%2B%28german%2Bcredit%2Bdata%29) used to create synthetic datasets.
-* `development/`
+* `cloudformation/`
   * `explaining-credit-decisions.yaml`: Creates AWS CloudFormation Stack for solution.
   * `glue.yaml`: Used to create AWS Glue components.
   * `sagemaker.yaml`: Used to create Amazon SageMaker components.
   * `solution-assistant.yaml`: Used to prepare demonstration datasets and clean up resources.
-* `source/`
-  * `glue/`
-    * `etl_job.py`: Use by AWS Glue Job to transform datasets.
-  * `lambda/`
-    * `datasets.py`: Used to generate synthetic datasets.
-    * `lambda_function.py`: Solution Assistant create and delete logic.
-    * `requirements.txt`: Describes Python package requirements of the AWS Lambda function.
-  * `sagemaker/`
-    * `notebook.ipynb`: Orchestrates the solution.
-    * `requirements.txt`: Describes Python package requirements of the Amazon SageMaker Notebook instance.
-    * `setup.py`: Describes Python package used in the solution.
-    * `containers/`
+* `dataset/`
+  * `german.data`: Original [German Credit Dataset](http://archive.ics.uci.edu/ml/datasets/statlog%2B%28german%2Bcredit%2Bdata%29) used to create synthetic datasets.
+* `glue/`
+  * `etl_job.py`: Use by AWS Glue Job to transform datasets.
+* `lambda/`
+  * `datasets.py`: Used to generate synthetic datasets.
+  * `lambda_function.py`: Solution Assistant create and delete logic.
+  * `requirements.txt`: Describes Python package requirements of the AWS Lambda function.
+* `sagemaker/`
+  * `requirements.txt`: Describes Python package requirements of the Amazon SageMaker Notebook instance.
+  * `setup.py`: Describes Python package used in the solution.
+  * `containers/`
+    * `dashboard/`
+    * `model/`
       * `Dockerfile`: Describes custom Docker image hosted on Amazon ECR.
       * `requirements.txt`: Describes Python package requirements of the Docker image.
-    * `src/`
       * `entry_point.py`: Used by Amazon SageMaker for training and endpoint hosting.
-      * `package/`
-        * `config.py`: Stores and retrieves project configuration. Optionally uses [dotenv](https://pypi.org/project/python-dotenv/).
-        * `utils.py`: Various utility functions for scripts and/or notebooks.
-        * `visuals.py`: Contains explanation visualizations.
-        * `data/`
-          * `datasets.py`: Contains functions for reading datasets.
-          * `glue.py`: Manages the AWS Glue workflow of crawling datasets and running jobs.
-          * `schemas.py`: Schema creation and data validation.
-        * `machine_learning/`
-          * `preprocessing.py`: Scikit-learn steps to pre-process data for model.
-          * `training.py`: Scikit-learn steps to train and test model.
-        * `sagemaker/`
-          * `containers.py`: Manages the Docker workflow of building and pushing images to Amazon ECR.
-          * `estimator_fns.py`: Contains functions used by estimator.
-          * `explainer_fns.py`: Contains functions used by explainer.
-          * `predictor_fns.py`: Contains functions used by predictor.
-          * `predictors.py`: Custom predictor for using JSON endpoint from notebook.
+  * `notebooks/`
+    * `notebook.ipynb`: Orchestrates the solution.
+  * `package/`
+    * `config.py`: Stores and retrieves project configuration. Optionally uses [dotenv](https://pypi.org/project/python-dotenv/).
+    * `utils.py`: Various utility functions for scripts and/or notebooks.
+    * `visuals.py`: Contains explanation visualizations.
+    * `data/`
+      * `datasets.py`: Contains functions for reading datasets.
+      * `glue.py`: Manages the AWS Glue workflow of crawling datasets and running jobs.
+      * `schemas.py`: Schema creation and data validation.
+    * `machine_learning/`
+      * `preprocessing.py`: Scikit-learn steps to pre-process data for model.
+      * `training.py`: Scikit-learn steps to train and test model.
+    * `sagemaker/`
+      * `containers.py`: Manages the Docker workflow of building and pushing images to Amazon ECR.
+      * `estimator_fns.py`: Contains functions used by estimator.
+      * `explainer_fns.py`: Contains functions used by explainer.
+      * `predictor_fns.py`: Contains functions used by predictor.
+      * `predictors.py`: Custom predictor for using JSON endpoint from notebook.
 
 ## Architecture
 
@@ -156,13 +157,13 @@ Our solution is easily customizable. You can customize the:
 * AWS Glue Crawler to crawl your own datasets.
   * You can create AWS Glue [Connections](https://docs.aws.amazon.com/glue/latest/dg/console-connections.html) if your data is in a JDBC data store.
 * AWS Glue Job to process your own datasets.
-  * See [`source/glue/etl_job.py`](source/glue/etl_job.py).
+  * See [`glue/etl_job.py`](glue/etl_job.py).
   * AWS Glue [development endpoints](https://docs.aws.amazon.com/glue/latest/dg/dev-endpoint.html) can help when customizing the job.
 * Schemas to specify descriptions for your own features.
-  * See [`source/sagemaker/notebook.ipynb`](source/sagemaker/notebook.ipynb).
+  * See [`sagemaker/notebook.ipynb`](sagemaker/notebook.ipynb).
 * Machine learning pipeline
-  * See [`source/sagemaker/src/package/machine_learning/preprocessing.py`](source/sagemaker/src/package/machine_learning/preprocessing.py).
-  * See [`source/sagemaker/src/package/machine_learning/training.py`](source/sagemaker/src/package/machine_learning/training.py).
+  * See [`sagemaker/package/machine_learning/preprocessing.py`](sagemaker/package/machine_learning/preprocessing.py).
+  * See [`sagemaker/package/machine_learning/training.py`](sagemaker/package/machine_learning/training.py).
 
 ## FAQ
 

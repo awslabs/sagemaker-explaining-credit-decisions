@@ -1,0 +1,278 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Stack for AWS Glue resources.
+Parameters:
+  StackName:
+    Description: |
+      Used as a prefix to name all stack resources.
+      Should be root stack's name if this is a nested stack.
+    Type: String
+  S3BucketName:
+    Description: Used to store credits data.
+    Type: String
+  SolutionsS3BucketName:
+    Description: Amazon S3 Bucket containing solutions.
+    Type: String
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterLabels:
+      StackName:
+        default: AWS CloudFormation Stack Name
+      S3BucketName:
+        default: Amazon S3 Bucket Name
+      SolutionsS3BucketName:
+        default: Amazon S3 Bucket Name for SageMaker Solutions
+Resources:
+  GlueIAMPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: !Sub ${StackName}-glue-policy
+      Roles:
+        - !Ref GlueIAMRole
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          # Can list the contents of the SageMaker Solutions Amazon S3 Bucket
+          - Effect: Allow
+            Action:
+              - s3:ListBucket
+            Resource:
+              - !Sub "arn:aws:s3:::${SolutionsS3BucketName}"
+          # Can get objects from the SageMaker Solutions Amazon S3 Bucket
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource:
+              - !Sub "arn:aws:s3:::${SolutionsS3BucketName}/*"
+          # Can list the contents of the Explaining Credit Decisions Amazon S3 Bucket
+          - Effect: Allow
+            Action:
+              - s3:ListBucket
+              - s3:GetBucketLocation
+              - s3:GetBucketAcl
+            Resource:
+              - "arn:aws:s3:::aws-glue-*/*"
+              - !Sub "arn:aws:s3:::${S3BucketName}"
+          # Can get objects from the Explaining Credit Decisions Amazon S3 Bucket
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+              - s3:DeleteObject
+            Resource:
+              - "arn:aws:s3:::aws-glue-*/*"
+              - !Sub "arn:aws:s3:::${S3BucketName}/*"
+          # Can add Amazon CloudWatch Logs
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+            Resource:
+              - "*"
+          # Can add Amazon CloudWatch Logs
+          - Effect: Allow
+            Action:
+              - logs:CreateLogStream
+            Resource:
+              - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:/aws-glue/*"
+          # Can add Amazon CloudWatch Logs
+          - Effect: Allow
+            Action:
+              - logs:PutLogEvents
+            Resource:
+              - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:/aws-glue/*"
+          # Can add Amazon CloudWatch Metrics
+          - Effect: Allow
+            Action:
+              - cloudwatch:PutMetricData
+            Resource:
+              - "*"
+          # Can perform AWS Glue actions
+          - Effect: Allow
+            Action:
+              - glue:GetClassifier
+              - glue:GetClassifiers
+              - glue:GetCrawler
+              - glue:GetCrawlerMetrics
+              - glue:GetCrawlers
+              - glue:GetJob
+              - glue:GetJobRun
+              - glue:GetJobRuns
+              - glue:GetJobs
+              - glue:GetPlan
+              - glue:GetTrigger
+              - glue:GetTriggers
+              - glue:GetWorkflow
+              - glue:GetWorkflowRun
+              - glue:UpdateTrigger
+              - glue:UpdateWorkflow
+            Resource:
+              - "*"
+          # Can perform AWS Glue actions on databases
+          - Effect: Allow
+            Action:
+              - glue:GetDatabase
+              - glue:CreateDatabase
+            Resource:
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:catalog"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/${GlueDatabase}"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/default"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/global_temp"
+          # Can perform AWS Glue actions on database tables
+          - Effect: Allow
+            Action:
+              - glue:GetTable
+              - glue:GetTables
+              - glue:SearchTables
+              - glue:CreateTable
+              - glue:UpdateTable
+              - glue:DeleteTable
+              - glue:BatchDeleteTable
+              - glue:CreatePartition
+              - glue:GetPartition
+              - glue:GetPartitions
+              - glue:UpdatePartition
+              - glue:DeletePartition
+              - glue:BatchCreatePartition
+              - glue:BatchDeletePartition
+              - glue:BatchGetPartition
+            Resource:
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:catalog"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/${GlueDatabase}"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/default"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/global_temp"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:table/*"
+          # Can perform AWS Glue actions on database table versions
+          - Effect: Allow
+            Action:
+              - glue:DeleteTableVersion
+              - glue:GetTableVersion
+              - glue:GetTableVersions
+              - glue:BatchDeleteTableVersion
+            Resource:
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:catalog"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/${GlueDatabase}"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/default"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/global_temp"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:table/*"
+              - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:tableVersion/*"
+          # Can get AWS IAM Roles and Policies
+          - Effect: Allow
+            Action:
+              - iam:ListRolePolicies
+              - iam:GetRole
+              - iam:GetRolePolicy
+            Resource:
+              - !GetAtt GlueIAMRole.Arn
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W12
+            reason: |
+              A number of actions are resource agnostic, so '*' is used.
+              See 'logs:CreateLogGroup' as an example.
+  GlueIAMRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - glue.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Description: Used by AWS Glue Crawler and Jobs.
+  GlueDatabase:
+    Type: "AWS::Glue::Database"
+    Properties:
+      DatabaseInput:
+        Description: AWS Glue Database for Credits data.
+        LocationUri: !Sub s3://${S3BucketName}/datasets
+        Name: !Sub ${StackName}-database
+      CatalogId: !Ref AWS::AccountId
+  GlueWorkflow:
+    Type: "AWS::Glue::Workflow"
+    Properties:
+      Description: AWS Glue Workflow to co-ordinate crawler and job.
+      Name: !Sub ${StackName}-workflow
+  GlueCrawlerTrigger:
+    Type: "AWS::Glue::Trigger"
+    Properties:
+      Type: ON_DEMAND
+      Description: Used to start the workflow, and start the crawler.
+      Actions:
+        -
+          CrawlerName: !Ref GlueCrawler
+      WorkflowName: !Ref GlueWorkflow
+      Name: !Sub ${StackName}-crawler-trigger
+  GlueCrawler:
+    Type: "AWS::Glue::Crawler"
+    Properties:
+      Name: !Sub ${StackName}-crawler
+      Role: !GetAtt GlueIAMRole.Arn
+      Classifiers:
+        - !Ref GlueClassifier
+      Description: Crawls data in Amazon S3 Bucket and infers schemas.
+      DatabaseName: !Ref GlueDatabase
+      Targets:
+        S3Targets: 
+          -
+            Path: !Sub ${S3BucketName}/datasets
+  GlueClassifier:
+    Type: "AWS::Glue::Classifier"
+    Properties:
+      CsvClassifier:
+        Name: !Sub ${StackName}-contacts-classifier
+        ContainsHeader: PRESENT
+        Header: 
+          - contact_id
+          - person_id
+          - type
+          - value
+        Delimiter: ","
+        QuoteSymbol: '"'
+  GlueJobTrigger:
+    Type: "AWS::Glue::Trigger"
+    Properties:
+      Type: CONDITIONAL
+      StartOnCreation: true
+      Description: Used to start AWS Glue Job.
+      Actions:
+        -
+          JobName: !Ref GlueJob
+      WorkflowName: !Ref GlueWorkflow
+      Name: !Sub ${StackName}-job-trigger
+      Predicate:
+        Conditions:
+          - 
+            CrawlerName: !Ref GlueCrawler
+            CrawlState: SUCCEEDED
+            LogicalOperator: EQUALS
+  GlueJob:
+    Type: "AWS::Glue::Job"
+    Properties:
+      Name: !Sub ${StackName}-job
+      Description: Job for ETL of Contacts data.
+      Role: !GetAtt GlueIAMRole.Arn
+      DefaultArguments:
+        "--extra-jars": !Sub s3://${SolutionsS3BucketName}/Explaining-credit-decisions/glue/json-serde.jar
+        "--GLUE_DATABASE": !Sub ${GlueDatabase}
+        "--GLUE_REGION": !Sub ${AWS::Region}
+        "--TempDir": !Sub s3://${S3BucketName}/tmp
+      Command:
+        Name: glueetl
+        PythonVersion: "3"
+        ScriptLocation: !Sub s3://${SolutionsS3BucketName}/Explaining-credit-decisions/glue/etl_job.py
+      GlueVersion: "1.0"
+Outputs:
+  GlueIAMRoleName:
+    Description: AWS IAM Role for AWS Glue Job
+    Value: !Ref GlueIAMRole
+    Export:
+      Name: !Sub ${StackName}-role
+  GlueDatabase:
+    Description: AWS Glue Database
+    Value: !Ref GlueDatabase
+  GlueWorkflow:
+    Description: AWS Glue Workflow
+    Value: !Ref GlueWorkflow
