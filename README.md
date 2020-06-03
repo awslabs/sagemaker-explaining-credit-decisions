@@ -42,7 +42,7 @@ Click on one of the following buttons to *quick create* the AWS CloudFormation S
     <td>Oregon</td>
     <td>us-west-2</td>
     <td align="center">
-      <a href="https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-west-2.s3-us-west-2.amazonaws.com/Explaining-credit-decisions/cloudformation/packaged.yaml&stackName=explaining-credit-decisions">
+      <a href="https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-west-2.s3-us-west-2.amazonaws.com/Explaining-credit-decisions/build/packaged.yaml&stackName=explaining-credit-decisions">
         <img src="docs/launch_button.svg" height="30">
       </a>
     </td>
