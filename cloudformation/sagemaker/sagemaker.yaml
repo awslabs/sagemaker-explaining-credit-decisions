@@ -293,6 +293,9 @@ Outputs:
   SageMakerNotebookInstanceSignOn:
     Description: Amazon SageMaker Notebook Instance URL to orchestrate AWS Glue and Amazon SageMaker Jobs.
     Value: !Sub "https://console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${SageMakerNotebookInstance.NotebookInstanceName}?view=classic"
+  SageMakerNotebookInstanceNotebooks:
+    Description: URL to notebooks on the Amazon SageMaker Notebook Instance.
+    Value: !Sub "https://${SageMakerNotebookInstance.NotebookInstanceName}.notebook.${AWS::Region}.sagemaker.aws/tree/sagemaker/notebooks"
   ECRRepository:
     Description: Amazon ECR Repository
     Value: !Ref ECRRepository

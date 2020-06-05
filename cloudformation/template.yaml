@@ -93,3 +93,6 @@ Outputs:
   SageMakerNotebookInstanceSignOn:
     Description: Amazon SageMaker Notebook Instance URL to orchestrate AWS Glue and Amazon SageMaker Jobs.
     Value: !GetAtt SageMakerStack.Outputs.SageMakerNotebookInstanceSignOn
+  SageMakerNotebookInstanceNotebooks:
+    Description: URL to notebooks on the Amazon SageMaker Notebook Instance.
+    Value: !GetAtt SageMakerStack.Outputs.SageMakerNotebookInstanceNotebooks

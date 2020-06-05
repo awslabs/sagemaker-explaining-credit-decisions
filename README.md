@@ -113,9 +113,10 @@ As part of the solution, the following services are used:
 * [Amazon SageMaker Notebook](https://aws.amazon.com/sagemaker/): Used to train the LightGBM model.
 * [Amazon ECR](https://aws.amazon.com/ecr/): Used to store the custom Scikit-learn + LightGBM training environment.
 * [Amazon SageMaker Endpoint](https://aws.amazon.com/sagemaker/): Used to deploy the trained model and SHAP explainer.
+* [Amazon SageMaker Batch Transform](https://aws.amazon.com/sagemaker/): Used to compute explanations in batch.
 
 <p align="center">
-  <img src="docs/architecture_diagram.png" width="700px">
+  <img src="docs/architecture_diagrams/complete.png" width="800px">
 </p>
 
 ## Costs
