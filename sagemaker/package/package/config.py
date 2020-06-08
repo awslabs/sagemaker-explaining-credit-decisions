@@ -6,7 +6,7 @@ from package import utils
 
 
 current_folder = utils.get_current_folder(globals())
-dotenv_filepath = Path(current_folder, '../.env').resolve()
+dotenv_filepath = Path(current_folder, '../../.env').resolve()
 if dotenv_filepath.exists():
     load_dotenv()
 

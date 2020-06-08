@@ -250,9 +250,8 @@ Resources:
               cd /home/ec2-user/SageMaker
               pip install -r ./containers/dashboard/requirements.txt
               pip install -r ./containers/model/requirements.txt
-              pip install -r ./requirements.txt
-              pip install -e .
-              rm -rf ./package.egg-info
+              pip install -r ./package/requirements.txt
+              pip install -e ./package/
               EOF
               # update jupyter-server-proxy
               source /home/ec2-user/anaconda3/bin/activate JupyterSystemEnv
@@ -295,7 +294,7 @@ Outputs:
     Value: !Sub "https://console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${SageMakerNotebookInstance.NotebookInstanceName}?view=classic"
   SageMakerNotebookInstanceNotebooks:
     Description: URL to notebooks on the Amazon SageMaker Notebook Instance.
-    Value: !Sub "https://${SageMakerNotebookInstance.NotebookInstanceName}.notebook.${AWS::Region}.sagemaker.aws/tree/sagemaker/notebooks"
+    Value: !Sub "https://${SageMakerNotebookInstance.NotebookInstanceName}.notebook.${AWS::Region}.sagemaker.aws/tree/notebooks"
   ECRRepository:
     Description: Amazon ECR Repository
     Value: !Ref ECRRepository

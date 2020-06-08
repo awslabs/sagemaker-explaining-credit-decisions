@@ -14,10 +14,10 @@ Ultimately, we deploy an endpoint that returns the model prediction and the asso
 
 **What is an explanation?**
 
-Given a set of input features used to describe a credit application (e.g. `credit__amount` and `employment__duration`), an explanation reflects the contribution of each feature to the model's final prediction. We include a number of visualizations that can be used to see how each feature pushes up or down the risk of credit default for an individual application. Click on the screenshot below to see an example of an [exported explanation report](http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/sagemaker/reports/generated/example.html).
+Given a set of input features used to describe a credit application (e.g. `credit__amount` and `employment__duration`), an explanation reflects the contribution of each feature to the model's final prediction. We include a number of visualizations that can be used to see how each feature pushes up or down the risk of credit default for an individual application. Click on the screenshot below to see an example of an [exported explanation report](http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/docs/example_report.html).
 
 <p align="center">
-  <a href="http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/sagemaker/reports/generated/example.html">
+  <a href="http://sagemaker-solutions-us-west-2.s3-website-us-west-2.amazonaws.com/Explaining-credit-decisions/docs/example_report.html">
     <img src="docs/explanations.png" width="750px">
   </a>
 </p>

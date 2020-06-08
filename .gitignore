@@ -6,4 +6,5 @@ site-packages
 codebuild
 sagemaker/dev_tools
 sagemaker/tests
+sagemaker/containers/dashboard/src/package
 glue/json-serde.jar

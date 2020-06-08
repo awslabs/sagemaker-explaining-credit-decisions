@@ -1,10 +1,6 @@
-sagemaker
-numpy
 scikit-learn
-xgboost
 lightgbm
-shap
 joblib
-jsonschema
-boto3
-python-dotenv
+shap
+# package source will be provided at run time
+-r ../../package/requirements.txt

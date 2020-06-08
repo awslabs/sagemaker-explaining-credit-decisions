@@ -4,7 +4,8 @@ import random
 import sys
 import urllib.parse
 
-from package import visuals, reports
+from package import visuals
+from package.reports import reports
 
 sys.path.append('..')
 import session_state

@@ -9,7 +9,6 @@ from package import visuals
 
 
 current_folder = utils.get_current_folder(globals())
-reports_filepath = Path(current_folder, '../reports').resolve()
 
 
 def create_report_html(output, x_axis_label):
@@ -42,7 +41,7 @@ def create_report_html(output, x_axis_label):
         index=False, justify='left', border=0
     )
 
-    with open(Path(reports_filepath, 'template', 'template.html')) as openfile:
+    with open(Path(current_folder, 'template', 'template.html')) as openfile:
         template_html = openfile.read()
 
     template = Template(template_html)
@@ -55,21 +54,3 @@ def create_report_html(output, x_axis_label):
         table=table
     )
     return output_html
-
-    
-def create_report(output, report_name, x_axis_label):
-    output_html = create_report_html(output, x_axis_label)
-    output_path = Path(reports_filepath, 'generated', report_name + '.html')
-    with open(output_path, "w") as openfile:
-        openfile.write(output_html)
-    return output_path
-
-
-def report_link(report_name):
-    link = """
-        <a href="../../view/reports/generated/{}.html" target="_blank">
-            Click to view report.
-        </a>
-    """
-    link = link.format(report_name)
-    return link
