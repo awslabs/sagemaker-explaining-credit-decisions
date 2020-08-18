@@ -29,7 +29,7 @@ Resources:
   GlueIAMPolicy:
     Type: "AWS::IAM::Policy"
     Properties:
-      PolicyName: !Sub ${ResourceName}-glue-policy
+      PolicyName: !Sub ${ResourceName}-${AWS::Region}-glue-policy
       Roles:
         - !Ref GlueIAMRole
       PolicyDocument:
@@ -186,6 +186,12 @@ Resources:
             Action:
               - "sts:AssumeRole"
       Description: Used by AWS Glue Crawler and Jobs.
+      RoleName: !Sub ${ResourceName}-${AWS::Region}-glue-role
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W28
+            reason: Using explicit name to restrict permissions
   GlueDatabase:
     Type: "AWS::Glue::Database"
     Properties:

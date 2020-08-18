@@ -47,10 +47,16 @@ Resources:
               - !If [StackDevelopment, 'ec2.amazonaws.com', 'sagemaker.amazonaws.com']
             Action:
             - 'sts:AssumeRole'
+      RoleName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-role
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W28
+            reason: Using explicit name to restrict permissions
   SageMakerIAMPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: !Sub ${ResourceName}-sagemaker-policy
+      PolicyName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-policy
       Roles:
         - !Ref SageMakerIAMRole
       PolicyDocument:

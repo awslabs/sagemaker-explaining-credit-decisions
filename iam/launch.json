@@ -4,16 +4,27 @@
         {
             "Effect": "Allow",
             "Action": [
+                "servicecatalog:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "cloudformation:CreateStack"
             ],
-            "Resource": "arn:aws:cloudformation:*:*:stack/sagemaker-solutions-*",
+            "Resource": "*",
             "Condition" : {
                 "ForAllValues:StringLike" : {
                     "cloudformation:TemplateUrl" : [
-                        "https://sagemaker-solutions-us-west-2.s3-us-west-2.amazonaws.com/*",
-                        "https://s3.amazonaws.com/sagemaker-solutions-us-east-1/*",
+                        "https://s3-us-east-1.amazonaws.com/sagemaker-solutions-us-east-1/*",
                         "https://s3-us-east-2.amazonaws.com/sagemaker-solutions-us-east-2/*",
-                        "https://s3-us-west-2.amazonaws.com/sagemaker-solutions-us-west-2/*"
+                        "https://s3-us-west-1.amazonaws.com/sagemaker-solutions-us-west-1/*",
+                        "https://s3-us-west-2.amazonaws.com/sagemaker-solutions-us-west-2/*",
+                        "https://s3.us-east-1.amazonaws.com/sc-*",
+                        "https://s3.us-east-2.amazonaws.com/sc-*",
+                        "https://s3.us-west-1.amazonaws.com/sc-*",
+                        "https://s3.us-west-2.amazonaws.com/sc-*"
                     ]
                 }
             }
@@ -25,17 +36,28 @@
                 "cloudformation:DescribeStackEvents",
                 "cloudformation:DescribeStackResource",
                 "cloudformation:DescribeStackResources",
-                "cloudformation:DeleteStack"
+                "cloudformation:DeleteStack",
+                "cloudformation:SetStackPolicy",
+                "cloudformation:UpdateStack"
             ],
-            "Resource": "arn:aws:cloudformation:*:*:stack/sagemaker-solutions-*"
+            "Resource": "*"
         },
         {
             "Effect": "Allow",
             "Action": [
                 "cloudformation:ListStacks",
-                "cloudformation:GetTemplateSummary"
+                "cloudformation:GetTemplateSummary",
+                "cloudformation:ValidateTemplate",
+                "cloudformation:DescribeStacks"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::sc-*/*"
         },
         {
             "Effect": "Allow",

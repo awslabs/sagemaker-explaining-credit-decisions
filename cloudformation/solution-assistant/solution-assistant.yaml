@@ -104,3 +104,9 @@ Resources:
                 - ecr:BatchDeleteImage
               Resource:
                 - !Sub "arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/${ECRRepository}"
+      RoleName: !Sub ${ResourceName}-${AWS::Region}-lambda-role
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W28
+            reason: Using explicit name to restrict permissions
