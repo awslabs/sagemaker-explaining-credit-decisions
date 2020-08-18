@@ -1,0 +1,178 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:CreateStack"
+            ],
+            "Resource": "arn:aws:cloudformation:*:*:stack/sagemaker-solutions-*",
+            "Condition" : {
+                "ForAllValues:StringLike" : {
+                    "cloudformation:TemplateUrl" : [
+                        "https://sagemaker-solutions-us-west-2.s3-us-west-2.amazonaws.com/*",
+                        "https://s3.amazonaws.com/sagemaker-solutions-us-east-1/*",
+                        "https://s3-us-east-2.amazonaws.com/sagemaker-solutions-us-east-2/*",
+                        "https://s3-us-west-2.amazonaws.com/sagemaker-solutions-us-west-2/*"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:ListStackResources",
+                "cloudformation:DescribeStackEvents",
+                "cloudformation:DescribeStackResource",
+                "cloudformation:DescribeStackResources",
+                "cloudformation:DeleteStack"
+            ],
+            "Resource": "arn:aws:cloudformation:*:*:stack/sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:ListStacks",
+                "cloudformation:GetTemplateSummary"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:CreateRepository",
+                "ecr:DeleteRepository"
+            ],
+            "Resource": "arn:aws:ecr:*:*:repository/sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "glue:CreateDatabase",
+                "glue:DeleteDatabase"
+            ],
+            "Resource": [
+                "arn:aws:glue:*:*:catalog",
+                "arn:aws:glue:*:*:database/sagemaker-solutions-*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "glue:DeleteDatabase"
+            ],
+            "Resource": [
+                "arn:aws:glue:*:*:catalog",
+                "arn:aws:glue:*:*:database/sagemaker-solutions-*",
+                "arn:aws:glue:*:*:table/sagemaker-solutions-*",
+                "arn:aws:glue:*:*:userDefinedFunction/sagemaker-solutions-*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "glue:CreateCrawler",
+                "glue:DeleteCrawler",
+                "glue:CreateClassifier",
+                "glue:DeleteClassifier",
+                "glue:CreateJob",
+                "glue:DeleteJob",
+                "glue:CreateWorkflow",
+                "glue:DeleteWorkflow"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "glue:CreateCrawler",
+                "glue:DeleteCrawler",
+                "glue:StopCrawler",
+                "glue:GetCrawler"
+            ],
+            "Resource": "arn:aws:glue:*:*:crawler/sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "glue:CreateTrigger",
+                "glue:DeleteTrigger",
+                "glue:GetTrigger"
+            ],
+            "Resource": "arn:aws:glue:*:*:trigger/sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:GetRole",
+                "iam:PassRole",
+                "iam:DeleteRole",
+                "iam:GetRolePolicy",
+                "iam:PutRolePolicy",
+                "iam:DeleteRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:AttachRolePolicy"
+            ],
+            "Resource": "arn:aws:iam::*:role/sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreatePolicy",
+                "iam:DeletePolicy"
+            ],
+            "Resource": "arn:aws:iam::*:policy/sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction",
+                "lambda:AddPermission",
+                "lambda:RemovePermission",
+                "lambda:CreateFunction",
+                "lambda:DeleteFunction",
+                "lambda:GetFunction",
+                "lambda:GetFunctionConfiguration"
+            ],
+            "Resource": "arn:aws:lambda:*:*:function:sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket",
+                "s3:DeleteBucket",
+                "s3:PutBucketNotification",
+                "s3:PutBucketPublicAccessBlock",
+                "s3:PutEncryptionConfiguration"
+            ],
+            "Resource": "arn:aws:s3:::sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::sagemaker-solutions-*/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:CreateNotebookInstance",
+                "sagemaker:StopNotebookInstance",
+                "sagemaker:DeleteNotebookInstance",
+                "sagemaker:DescribeNotebookInstance"
+            ],
+            "Resource": "arn:aws:sagemaker:*:*:notebook-instance/sagemaker-solutions-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:CreateNotebookInstanceLifecycleConfig",
+                "sagemaker:DeleteNotebookInstanceLifecycleConfig",
+                "sagemaker:DescribeNotebookInstanceLifecycleConfig"
+            ],
+            "Resource": "arn:aws:sagemaker:*:*:notebook-instance-lifecycle-config/sagemaker-solutions-*"
+        }
+    ]
+}

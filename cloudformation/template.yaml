@@ -5,6 +5,15 @@ Description: >
   Used as root template for 'explaining credit decisions' stack.
   Version 1
 Parameters:
+  ResourceName:
+    Type: String
+    Description: |
+      Used to name resources created as part of this stack (and inside nested stacks too).
+      Can be the same as the stack name used by AWS CloudFormation, but this field has extra
+      constraints because it's used to name resources with restrictions (e.g. Amazon S3 bucket
+      names cannot contain capital letters).
+    AllowedPattern: '^[a-z0-9\-]+$'
+    ConstraintDescription: 'Only allowed to use lowercase letters, hyphens and/or numbers.'
   SageMakerNotebookInstanceType:
     Description: |
       Amazon SageMaker Notebook instance type
@@ -21,7 +30,7 @@ Parameters:
       - release
       - development
 Mappings: 
-  SolutionsS3BucketName: 
+  SolutionsS3BucketNamePrefix: 
     development: 
       Prefix: sagemaker-solutions
     release: 
@@ -30,7 +39,7 @@ Resources:
   S3Bucket:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: !Sub ${AWS::StackName}-${AWS::Region}-${AWS::AccountId}
+      BucketName: !Sub ${ResourceName}-${AWS::Region}-${AWS::AccountId}
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -51,20 +60,26 @@ Resources:
   GlueStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:
-      TemplateURL: ./glue/glue.yaml
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${SolutionsS3BucketNamePrefix}-${AWS::Region}/Explaining-credit-decisions/cloudformation/glue/glue.yaml"
+        - SolutionsS3BucketNamePrefix:
+            Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
-        StackName: !Ref AWS::StackName
+        ResourceName: !Ref ResourceName
         S3BucketName: !Ref S3Bucket
         SolutionsS3BucketName: !Sub
         - ${SolutionsS3BucketNamePrefix}-${AWS::Region}
         - SolutionsS3BucketNamePrefix:
-            Fn::FindInMap: [SolutionsS3BucketName, Ref: StackVersion, Prefix]
+            Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
   SageMakerStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:
-      TemplateURL: ./sagemaker/sagemaker.yaml
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${SolutionsS3BucketNamePrefix}-${AWS::Region}/Explaining-credit-decisions/cloudformation/sagemaker/sagemaker.yaml"
+        - SolutionsS3BucketNamePrefix:
+            Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
-        StackName: !Ref AWS::StackName
+        ResourceName: !Ref ResourceName
         StackVersion: !Ref StackVersion
         S3BucketName: !Ref S3Bucket
         GlueDatabase: !GetAtt GlueStack.Outputs.GlueDatabase
@@ -72,19 +87,22 @@ Resources:
         SolutionsS3BucketName: !Sub
           - ${SolutionsS3BucketNamePrefix}-${AWS::Region}
           - SolutionsS3BucketNamePrefix:
-              Fn::FindInMap: [SolutionsS3BucketName, Ref: StackVersion, Prefix]
+              Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
         SageMakerNotebookInstanceType: !Ref SageMakerNotebookInstanceType
   SolutionAssistantStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:
-      TemplateURL: ./solution-assistant/solution-assistant.yaml
+      TemplateURL: !Sub
+        - "https://s3.amazonaws.com/${SolutionsS3BucketNamePrefix}-${AWS::Region}/Explaining-credit-decisions/cloudformation/solution-assistant/solution-assistant.yaml"
+        - SolutionsS3BucketNamePrefix:
+            Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
-        StackName: !Ref AWS::StackName
+        ResourceName: !Ref ResourceName
         S3BucketName: !Ref S3Bucket
         SolutionsS3BucketName: !Sub
           - ${SolutionsS3BucketNamePrefix}-${AWS::Region}
           - SolutionsS3BucketNamePrefix:
-              Fn::FindInMap: [SolutionsS3BucketName, Ref: StackVersion, Prefix]
+              Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
         ECRRepository: !GetAtt SageMakerStack.Outputs.ECRRepository
 Outputs:
   S3BucketName:

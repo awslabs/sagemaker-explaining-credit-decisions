@@ -1,15 +1,11 @@
-import streamlit as st
-
-# +
 from pathlib import Path
+import streamlit as st
 
 from package import utils
 
 from pages import local_page, global_page
 from shared import list_explanation_groups
 
-
-# -
 
 def explanation_group_selectbox():
     paths = list_explanation_groups()
@@ -33,7 +29,6 @@ def explanation_scope_selectbox():
 
 if __name__ == "__main__":
     current_folder = utils.get_current_folder(globals())
-    st.sidebar.image(str(Path(current_folder, 'assets/logo.png')))
     st.sidebar.markdown('# Explanations Dashboard')
     explanation_group_path = explanation_group_selectbox()
     explanation_scope = explanation_scope_selectbox()

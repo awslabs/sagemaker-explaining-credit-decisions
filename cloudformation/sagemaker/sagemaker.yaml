@@ -1,11 +1,15 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Stack for Amazon SageMaker resources.
 Parameters:
-  StackName:
-    Description: |
-      Used as a prefix to name all stack resources.
-      Should be root stack's name if this is a nested stack.
+  ResourceName:
     Type: String
+    Description: |
+      Used to name resources created as part of this stack (and inside nested stacks too).
+      Can be the same as the stack name used by AWS CloudFormation, but this field has extra
+      constraints because it's used to name resources with restrictions (e.g. Amazon S3 bucket
+      names cannot contain capital letters).
+    AllowedPattern: '^[a-z0-9\-]+$'
+    ConstraintDescription: 'Only allowed to use lowercase letters, hyphens and/or numbers.'
   StackVersion:
     Description: CloudFormation Stack version.
     Type: String
@@ -46,7 +50,7 @@ Resources:
   SageMakerIAMPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: !Sub ${StackName}-sagemaker-policy
+      PolicyName: !Sub ${ResourceName}-sagemaker-policy
       Roles:
         - !Ref SageMakerIAMRole
       PolicyDocument:
@@ -217,7 +221,7 @@ Resources:
       DirectInternetAccess: Enabled
       InstanceType: !Ref SageMakerNotebookInstanceType
       LifecycleConfigName: !GetAtt SageMakerNotebookInstanceLifecycleConfig.NotebookInstanceLifecycleConfigName
-      NotebookInstanceName: !Sub ${StackName}-notebook
+      NotebookInstanceName: !Sub ${ResourceName}-notebook
       RoleArn: !GetAtt SageMakerIAMRole.Arn
       VolumeSizeInGB: 120
     Metadata:
@@ -228,7 +232,7 @@ Resources:
   SageMakerNotebookInstanceLifecycleConfig:
     Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
     Properties:
-      NotebookInstanceLifecycleConfigName: !Sub ${StackName}-lifecycle-config
+      NotebookInstanceLifecycleConfigName: !Sub ${ResourceName}-lifecycle-config
       OnStart:
         - Content:
             Fn::Base64: |
@@ -272,7 +276,7 @@ Resources:
               touch .env
               echo "AWS_ACCOUNT_ID=${AWS::AccountId}" >> .env
               echo "AWS_REGION=${AWS::Region}" >> .env
-              echo "EXPLAIN_STACK_NAME=${StackName}" >> .env
+              echo "EXPLAIN_RESOURCE_NAME=${ResourceName}" >> .env
               echo "EXPLAIN_S3_BUCKET=${S3BucketName}" >> .env
               echo "EXPLAIN_SAGEMAKER_IAM_ROLE=${SageMakerIAMRole.Arn}" >> .env
               echo "EXPLAIN_GLUE_DATABASE=${GlueDatabase}" >> .env
@@ -282,7 +286,7 @@ Resources:
   ECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: !Sub ${StackName}
+      RepositoryName: !Sub ${ResourceName}
     Metadata:
       cfn_nag:
         rules_to_suppress:

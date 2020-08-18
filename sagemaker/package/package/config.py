@@ -13,7 +13,7 @@ if dotenv_filepath.exists():
 AWS_ACCOUNT_ID = os.environ['AWS_ACCOUNT_ID']
 AWS_REGION = os.environ['AWS_REGION']
 
-STACK_NAME = os.environ['EXPLAIN_STACK_NAME']
+RESOURCE_NAME = os.environ['EXPLAIN_RESOURCE_NAME']
 
 S3_BUCKET = os.environ['EXPLAIN_S3_BUCKET']
 DATASETS_S3_PREFIX = 'datasets'

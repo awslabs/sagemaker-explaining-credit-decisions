@@ -1,11 +1,15 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Stack for Solution Helper resources.
 Parameters:
-  StackName:
-    Description: |
-      Used as a prefix to name all stack resources.
-      Should be root stack's name if this is a nested stack.
+  ResourceName:
     Type: String
+    Description: |
+      Used to name resources created as part of this stack (and inside nested stacks too).
+      Can be the same as the stack name used by AWS CloudFormation, but this field has extra
+      constraints because it's used to name resources with restrictions (e.g. Amazon S3 bucket
+      names cannot contain capital letters).
+    AllowedPattern: '^[a-z0-9\-]+$'
+    ConstraintDescription: 'Only allowed to use lowercase letters, hyphens and/or numbers.'
   S3BucketName:
     Description: Amazon S3 Bucket used to store datasets and schemas.
     Type: String
@@ -20,7 +24,7 @@ Resources:
     Type: "Custom::SolutionAssistant"
     Properties:
       ServiceToken: !GetAtt SolutionAssistantLambda.Arn
-      StackName: !Ref StackName
+      ResourceName: !Ref ResourceName
       S3BucketName: !Ref S3BucketName
       SolutionsS3BucketName: !Ref SolutionsS3BucketName
       ECRRepository: !Ref ECRRepository
@@ -28,16 +32,13 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Handler: "lambda_function.handler"
-      FunctionName: !Sub "${StackName}-solution-assistant"
+      FunctionName: !Sub "${ResourceName}-solution-assistant"
       Role: !GetAtt SolutionAssistantLambdaRole.Arn
       Runtime: "python3.8"
-      Code: ./src
+      Code:
+        S3Bucket: !Ref SolutionsS3BucketName
+        S3Key: "Explaining-credit-decisions/build/solution-assistant.zip"
       Timeout : 60
-    Metadata:
-      cfn_nag:
-        rules_to_suppress:
-          - id: W3002
-            reason: Using cloudformation package command.
   SolutionAssistantLambdaRole:
     Type: AWS::IAM::Role
     Properties:

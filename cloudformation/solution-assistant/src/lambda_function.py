@@ -134,10 +134,10 @@ def delete_ecr_images(repository_name):
 @helper.delete
 def on_delete(event, __):
     # remove sagemaker endpoint
-    stack_name = event["ResourceProperties"]["StackName"]
+    resource_name = event["ResourceProperties"]["ResourceName"]
     endpoint_names = [
-        "{}-explainer".format(stack_name),
-        "{}-predictor".format(stack_name)
+        "{}-explainer".format(resource_name),
+        "{}-predictor".format(resource_name)
     ]
     for endpoint_name in endpoint_names:
         delete_sagemaker_model(endpoint_name)

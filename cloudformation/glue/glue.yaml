@@ -1,11 +1,15 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Stack for AWS Glue resources.
 Parameters:
-  StackName:
-    Description: |
-      Used as a prefix to name all stack resources.
-      Should be root stack's name if this is a nested stack.
+  ResourceName:
     Type: String
+    Description: |
+      Used to name resources created as part of this stack (and inside nested stacks too).
+      Can be the same as the stack name used by AWS CloudFormation, but this field has extra
+      constraints because it's used to name resources with restrictions (e.g. Amazon S3 bucket
+      names cannot contain capital letters).
+    AllowedPattern: '^[a-z0-9\-]+$'
+    ConstraintDescription: 'Only allowed to use lowercase letters, hyphens and/or numbers.'
   S3BucketName:
     Description: Used to store credits data.
     Type: String
@@ -15,8 +19,8 @@ Parameters:
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterLabels:
-      StackName:
-        default: AWS CloudFormation Stack Name
+      ResourceName:
+        default: AWS Resource Name
       S3BucketName:
         default: Amazon S3 Bucket Name
       SolutionsS3BucketName:
@@ -25,7 +29,7 @@ Resources:
   GlueIAMPolicy:
     Type: "AWS::IAM::Policy"
     Properties:
-      PolicyName: !Sub ${StackName}-glue-policy
+      PolicyName: !Sub ${ResourceName}-glue-policy
       Roles:
         - !Ref GlueIAMRole
       PolicyDocument:
@@ -188,13 +192,13 @@ Resources:
       DatabaseInput:
         Description: AWS Glue Database for Credits data.
         LocationUri: !Sub s3://${S3BucketName}/datasets
-        Name: !Sub ${StackName}-database
+        Name: !Sub ${ResourceName}-database
       CatalogId: !Ref AWS::AccountId
   GlueWorkflow:
     Type: "AWS::Glue::Workflow"
     Properties:
       Description: AWS Glue Workflow to co-ordinate crawler and job.
-      Name: !Sub ${StackName}-workflow
+      Name: !Sub ${ResourceName}-workflow
   GlueCrawlerTrigger:
     Type: "AWS::Glue::Trigger"
     Properties:
@@ -204,11 +208,11 @@ Resources:
         -
           CrawlerName: !Ref GlueCrawler
       WorkflowName: !Ref GlueWorkflow
-      Name: !Sub ${StackName}-crawler-trigger
+      Name: !Sub ${ResourceName}-crawler-trigger
   GlueCrawler:
     Type: "AWS::Glue::Crawler"
     Properties:
-      Name: !Sub ${StackName}-crawler
+      Name: !Sub ${ResourceName}-crawler
       Role: !GetAtt GlueIAMRole.Arn
       Classifiers:
         - !Ref GlueClassifier
@@ -222,7 +226,7 @@ Resources:
     Type: "AWS::Glue::Classifier"
     Properties:
       CsvClassifier:
-        Name: !Sub ${StackName}-contacts-classifier
+        Name: !Sub ${ResourceName}-contacts-classifier
         ContainsHeader: PRESENT
         Header: 
           - contact_id
@@ -241,7 +245,7 @@ Resources:
         -
           JobName: !Ref GlueJob
       WorkflowName: !Ref GlueWorkflow
-      Name: !Sub ${StackName}-job-trigger
+      Name: !Sub ${ResourceName}-job-trigger
       Predicate:
         Conditions:
           - 
@@ -251,7 +255,7 @@ Resources:
   GlueJob:
     Type: "AWS::Glue::Job"
     Properties:
-      Name: !Sub ${StackName}-job
+      Name: !Sub ${ResourceName}-job
       Description: Job for ETL of Contacts data.
       Role: !GetAtt GlueIAMRole.Arn
       DefaultArguments:
@@ -269,7 +273,7 @@ Outputs:
     Description: AWS IAM Role for AWS Glue Job
     Value: !Ref GlueIAMRole
     Export:
-      Name: !Sub ${StackName}-role
+      Name: !Sub ${ResourceName}-role
   GlueDatabase:
     Description: AWS Glue Database
     Value: !Ref GlueDatabase
