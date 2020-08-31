@@ -2,21 +2,18 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Effect": "Allow",
             "Action": [
                 "servicecatalog:*"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
-            "Action": [
-                "cloudformation:CreateStack"
-            ],
-            "Resource": "*",
-            "Condition" : {
-                "ForAllValues:StringLike" : {
-                    "cloudformation:TemplateUrl" : [
+            "Condition": {
+                "ForAllValues:StringLike": {
+                    "cloudformation:TemplateUrl": [
                         "https://s3-us-east-1.amazonaws.com/sagemaker-solutions-us-east-1/*",
                         "https://s3-us-east-2.amazonaws.com/sagemaker-solutions-us-east-2/*",
                         "https://s3-us-west-1.amazonaws.com/sagemaker-solutions-us-west-1/*",
@@ -27,10 +24,16 @@
                         "https://s3.us-west-2.amazonaws.com/sc-*"
                     ]
                 }
-            }
+            },
+            "Action": [
+                "cloudformation:CreateStack"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "cloudformation:ListStackResources",
                 "cloudformation:DescribeStackEvents",
@@ -40,46 +43,53 @@
                 "cloudformation:SetStackPolicy",
                 "cloudformation:UpdateStack"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "cloudformation:ListStacks",
                 "cloudformation:GetTemplateSummary",
                 "cloudformation:ValidateTemplate",
                 "cloudformation:DescribeStacks"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "s3:GetObject"
             ],
-            "Resource": "arn:aws:s3:::sc-*/*"
+            "Resource": [
+                "arn:aws:s3:::sc-*/*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "ecr:CreateRepository",
                 "ecr:DeleteRepository"
             ],
-            "Resource": "arn:aws:ecr:*:*:repository/sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:ecr:*:*:repository/sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
-                "glue:CreateDatabase",
-                "glue:DeleteDatabase"
+                "glue:CreateDatabase"
             ],
             "Resource": [
                 "arn:aws:glue:*:*:catalog",
                 "arn:aws:glue:*:*:database/sagemaker-solutions-*"
-            ]
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "glue:DeleteDatabase"
             ],
@@ -88,10 +98,10 @@
                 "arn:aws:glue:*:*:database/sagemaker-solutions-*",
                 "arn:aws:glue:*:*:table/sagemaker-solutions-*",
                 "arn:aws:glue:*:*:userDefinedFunction/sagemaker-solutions-*"
-            ]
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "glue:CreateCrawler",
                 "glue:DeleteCrawler",
@@ -102,29 +112,35 @@
                 "glue:CreateWorkflow",
                 "glue:DeleteWorkflow"
             ],
-            "Resource": "*"
+            "Resource": [
+                "*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "glue:CreateCrawler",
                 "glue:DeleteCrawler",
                 "glue:StopCrawler",
                 "glue:GetCrawler"
             ],
-            "Resource": "arn:aws:glue:*:*:crawler/sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:glue:*:*:crawler/sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "glue:CreateTrigger",
                 "glue:DeleteTrigger",
                 "glue:GetTrigger"
             ],
-            "Resource": "arn:aws:glue:*:*:trigger/sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:glue:*:*:trigger/sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "iam:CreateRole",
                 "iam:GetRole",
@@ -136,18 +152,22 @@
                 "iam:DetachRolePolicy",
                 "iam:AttachRolePolicy"
             ],
-            "Resource": "arn:aws:iam::*:role/sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:iam::*:role/sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "iam:CreatePolicy",
                 "iam:DeletePolicy"
             ],
-            "Resource": "arn:aws:iam::*:policy/sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:iam::*:policy/sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "lambda:InvokeFunction",
                 "lambda:AddPermission",
@@ -157,10 +177,12 @@
                 "lambda:GetFunction",
                 "lambda:GetFunctionConfiguration"
             ],
-            "Resource": "arn:aws:lambda:*:*:function:sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:lambda:*:*:function:sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "s3:CreateBucket",
                 "s3:DeleteBucket",
@@ -168,33 +190,42 @@
                 "s3:PutBucketPublicAccessBlock",
                 "s3:PutEncryptionConfiguration"
             ],
-            "Resource": "arn:aws:s3:::sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:s3:::sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "s3:GetObject"
             ],
-            "Resource": "arn:aws:s3:::sagemaker-solutions-*/*"
+            "Resource": [
+                "arn:aws:s3:::sagemaker-solutions-*/*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "sagemaker:CreateNotebookInstance",
                 "sagemaker:StopNotebookInstance",
                 "sagemaker:DeleteNotebookInstance",
                 "sagemaker:DescribeNotebookInstance"
             ],
-            "Resource": "arn:aws:sagemaker:*:*:notebook-instance/sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:sagemaker:*:*:notebook-instance/sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         },
         {
-            "Effect": "Allow",
             "Action": [
                 "sagemaker:CreateNotebookInstanceLifecycleConfig",
                 "sagemaker:DeleteNotebookInstanceLifecycleConfig",
                 "sagemaker:DescribeNotebookInstanceLifecycleConfig"
             ],
-            "Resource": "arn:aws:sagemaker:*:*:notebook-instance-lifecycle-config/sagemaker-solutions-*"
+            "Resource": [
+                "arn:aws:sagemaker:*:*:notebook-instance-lifecycle-config/sagemaker-solutions-*"
+            ],
+            "Effect": "Allow"
         }
     ]
 }

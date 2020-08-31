@@ -38,12 +38,32 @@ Click on one of the following buttons to *quick create* the AWS CloudFormation S
     <th>AWS CloudFormation</td>
   </tr>
   <tr>
+    <td>US East</td>
+    <td>N. Virginia</td>
+    <td>us-east-1</td>
+    <td align="center">
+      <a href="https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3-us-east-1.amazonaws.com/sagemaker-solutions-us-east-1/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-ecd&param_ResourceName=sagemaker-solutions-ecd">
+        <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>US East</td>
+    <td>Ohio</td>
+    <td>us-east-2</td>
+    <td align="center">
+      <a href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/review?templateURL=https://s3-us-east-2.amazonaws.com/sagemaker-solutions-us-east-2/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-ecd&param_ResourceName=sagemaker-solutions-ecd">
+        <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png">
+      </a>
+    </td>
+  </tr>
+  <tr>
     <td>US West</td>
     <td>Oregon</td>
     <td>us-west-2</td>
     <td align="center">
       <a href="https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://s3-us-west-2.amazonaws.com/sagemaker-solutions-us-west-2/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-ecd&param_ResourceName=sagemaker-solutions-ecd">
-        <img src="docs/launch_button.svg" height="30">
+        <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png">
       </a>
     </td>
   </tr>
@@ -86,7 +106,7 @@ You should acknowledge the use of the two capabilities and click 'Create Stack'.
   * `notebooks/`
     * `notebook.ipynb`: Orchestrates the solution.
   * `package/`
-    * `config.py`: Stores and retrieves project configuration. Optionally uses [dotenv](https://pypi.org/project/python-dotenv/).
+    * `config.py`: Stores and retrieves project configuration.
     * `utils.py`: Various utility functions for scripts and/or notebooks.
     * `visuals.py`: Contains explanation visualizations.
     * `data/`

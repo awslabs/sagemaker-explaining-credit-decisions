@@ -28,12 +28,86 @@ Parameters:
   SolutionsS3BucketName:
     Description: Amazon S3 Bucket containing solutions.
     Type: String
+  CreateSageMakerNotebookInstance:
+    Description: Create a SageMaker Notebook Instance as part of the stack?
+    Type: String
+    AllowedValues: 
+      - 'true'
+      - 'false'
   SageMakerNotebookInstanceType:
     Description: Amazon SageMaker Notebook instance type.
     Type: String
-Conditions: 
+Conditions:
   StackDevelopment: !Equals [!Ref StackVersion, development]
+  CreateSageMakerNotebookInstance: !Equals [ !Ref CreateSageMakerNotebookInstance, 'true' ]
 Resources:
+  SageMakerExecutionIAMRole:
+    Type: AWS::IAM::Role
+    Condition: CreateSageMakerNotebookInstance
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - sagemaker.amazonaws.com
+                - !If [StackDevelopment, 'ec2.amazonaws.com', 'sagemaker.amazonaws.com']
+            Action:
+              - 'sts:AssumeRole'
+      RoleName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-execution-role
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W28
+            reason: Using explicit name to restrict permissions
+  SageMakerExecutionIAMPolicy:
+    Type: AWS::IAM::Policy
+    Condition: CreateSageMakerNotebookInstance
+    Properties:
+      PolicyName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-execution-policy
+      Roles:
+        - !Ref SageMakerExecutionIAMRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource:
+              - !GetAtt SageMakerIAMRole.Arn
+          - Effect: Allow
+            Action:
+              - cloudwatch:PutMetricData
+              - cloudwatch:GetMetricData
+              - cloudwatch:GetMetricStatistics
+              - cloudwatch:ListMetrics
+            Resource:
+              - "*"
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+            Resource:
+              - "*"
+          - Effect: Allow
+            Action:
+              - logs:CreateLogStream
+              - logs:DescribeLogStreams
+            Resource:
+              - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/sagemaker/*"
+          - Effect: Allow
+            Action:
+              - logs:GetLogEvents
+              - logs:PutLogEvents
+            Resource:
+              - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/sagemaker/*:log-stream:*"
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W12
+            reason: |
+              A number of actions are resource agnostic, so '*' is used.
+              See 'logs:CreateLogGroup' as an example.
   SageMakerIAMRole:
     Type: AWS::IAM::Role
     Properties:
@@ -42,11 +116,13 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/${SageMakerExecutionIAMRole}"
+                - !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/${SageMakerExecutionIAMRole}/SageMaker"
               Service:
-              - sagemaker.amazonaws.com
-              - !If [StackDevelopment, 'ec2.amazonaws.com', 'sagemaker.amazonaws.com']
+                - "sagemaker.amazonaws.com"
             Action:
-            - 'sts:AssumeRole'
+              - 'sts:AssumeRole'
       RoleName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-role
     Metadata:
       cfn_nag:
@@ -104,7 +180,6 @@ Resources:
             Resource:
               - !Sub "arn:aws:sagemaker:${AWS::Region}:${AWS::AccountId}:endpoint/*"
               - !Sub "arn:aws:sagemaker:${AWS::Region}:${AWS::AccountId}:endpoint-config/*"
-          # Can add CloudWatch Metrics
           - Effect: Allow
             Action:
               - cloudwatch:PutMetricData
@@ -113,27 +188,23 @@ Resources:
               - cloudwatch:ListMetrics
             Resource:
               - "*"
-          # Can add Amazon CloudWatch Logs
           - Effect: Allow
             Action:
               - logs:CreateLogGroup
             Resource:
               - "*"
-          # Can add Amazon CloudWatch Logs
           - Effect: Allow
             Action:
               - logs:CreateLogStream
               - logs:DescribeLogStreams
             Resource:
               - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/sagemaker/*"
-          # Can add Amazon CloudWatch Logs
           - Effect: Allow
             Action:
               - logs:GetLogEvents
               - logs:PutLogEvents
             Resource:
               - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/sagemaker/*:log-stream:*"
-          # Can pass the IAM Role to Amazon SageMaker Jobs
           - Effect: Allow
             Action:
               - iam:PassRole
@@ -223,12 +294,13 @@ Resources:
               Simpler to keep as single policy for SageMaker resources
   SageMakerNotebookInstance:
     Type: AWS::SageMaker::NotebookInstance
+    Condition: CreateSageMakerNotebookInstance
     Properties:
       DirectInternetAccess: Enabled
       InstanceType: !Ref SageMakerNotebookInstanceType
       LifecycleConfigName: !GetAtt SageMakerNotebookInstanceLifecycleConfig.NotebookInstanceLifecycleConfigName
       NotebookInstanceName: !Sub ${ResourceName}-notebook
-      RoleArn: !GetAtt SageMakerIAMRole.Arn
+      RoleArn: !GetAtt SageMakerExecutionIAMRole.Arn
       VolumeSizeInGB: 120
     Metadata:
       cfn_nag:
@@ -237,57 +309,42 @@ Resources:
             reason: Solution does not have AWS KMS encryption enabled by default.
   SageMakerNotebookInstanceLifecycleConfig:
     Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
+    Condition: CreateSageMakerNotebookInstance
     Properties:
       NotebookInstanceLifecycleConfigName: !Sub ${ResourceName}-lifecycle-config
       OnStart:
         - Content:
             Fn::Base64: |
               set -e
-              # install amazon-ecr-credential-helper
-              sudo wget -P /usr/bin https://amazon-ecr-credential-helper-releases.s3.us-east-2.amazonaws.com/0.4.0/linux-amd64/docker-credential-ecr-login
-              sudo chmod +x /usr/bin/docker-credential-ecr-login
               # perform following actions as ec2-user
               sudo -u ec2-user -i <<EOF
-              # install Python dependencies in the python3 conda environment
-              source /home/ec2-user/anaconda3/bin/activate python3
-              pip install --upgrade pip==20.0.2
-              # fix to upgrade `docutils` that was installed with `distutils` (hence pip can't uninstall)
-              rm -rf /home/ec2-user/anaconda3/envs/python3/lib/python3.6/site-packages/docutils
-              rm -f /home/ec2-user/anaconda3/envs/python3/lib/python3.6/site-packages/docutils-*
-              pip install --upgrade entrypoints --ignore-installed
-              pip install --upgrade ptyprocess --ignore-installed
-              pip install --upgrade terminado --ignore-installed
               cd /home/ec2-user/SageMaker
-              pip install -r ./containers/dashboard/requirements.txt
-              pip install -r ./containers/model/requirements.txt
-              pip install -r ./package/requirements.txt
-              pip install -e ./package/
+              bash setup.sh
               EOF
-              # update jupyter-server-proxy
-              source /home/ec2-user/anaconda3/bin/activate JupyterSystemEnv
-              pip install --upgrade pip==20.0.2
-              pip uninstall nbserverproxy || true
-              pip install --upgrade jupyter-server-proxy==1.3.2 
-              initctl restart jupyter-server --no-wait
       OnCreate:
         - Content:
             Fn::Base64: !Sub |
               set -e
               # perform following actions as ec2-user
               sudo -u ec2-user -i <<EOF
+              # assume role for aws cli (assumes ~/.aws/config already exists and has default profile)
+              echo "role_arn = ${SageMakerIAMRole.Arn}" >> ~/.aws/config
+              echo "credential_source = Ec2InstanceMetadata" >> ~/.aws/config
               cd /home/ec2-user/SageMaker
               # copy source files
               aws s3 cp s3://${SolutionsS3BucketName}/Explaining-credit-decisions/sagemaker/ . --recursive
-              # set environment variables via .env file
-              touch .env
-              echo "AWS_ACCOUNT_ID=${AWS::AccountId}" >> .env
-              echo "AWS_REGION=${AWS::Region}" >> .env
-              echo "EXPLAIN_RESOURCE_NAME=${ResourceName}" >> .env
-              echo "EXPLAIN_S3_BUCKET=${S3BucketName}" >> .env
-              echo "EXPLAIN_SAGEMAKER_IAM_ROLE=${SageMakerIAMRole.Arn}" >> .env
-              echo "EXPLAIN_GLUE_DATABASE=${GlueDatabase}" >> .env
-              echo "EXPLAIN_GLUE_WORKFLOW=${GlueWorkflow}" >> .env
-              echo "EXPLAIN_ECR_REPOSITORY=${ECRRepository}" >> .env
+              # create stack_outputs.json with stack resources that are required in notebook(s)
+              touch stack_outputs.json
+              echo '{' >> stack_outputs.json
+              echo '  "aws_account_id": "${AWS::AccountId}",' >> stack_outputs.json
+              echo '  "aws_region": "${AWS::Region}",' >> stack_outputs.json
+              echo '  "explain_resource_name": "${ResourceName}",' >> stack_outputs.json
+              echo '  "explain_s3_bucket": "${S3BucketName}",' >> stack_outputs.json
+              echo '  "explain_sagemaker_iam_role": "${SageMakerIAMRole.Arn}",' >> stack_outputs.json
+              echo '  "explain_glue_database": "${GlueDatabase}",' >> stack_outputs.json
+              echo '  "explain_glue_workflow": "${GlueWorkflow}",' >> stack_outputs.json
+              echo '  "explain_ecr_repository": "${ECRRepository}"' >> stack_outputs.json
+              echo '}' >> stack_outputs.json
               EOF
   ECRRepository:
     Type: AWS::ECR::Repository
@@ -308,3 +365,6 @@ Outputs:
   ECRRepository:
     Description: Amazon ECR Repository
     Value: !Ref ECRRepository
+  SageMakerIAMRole:
+    Description: Amazon SageMaker Solution IAM Role
+    Value: !GetAtt SageMakerIAMRole.Arn

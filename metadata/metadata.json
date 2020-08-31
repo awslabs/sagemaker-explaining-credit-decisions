@@ -1,0 +1,46 @@
+{
+    "id": "sagemaker-solutions-ecd",
+    "name": "Explaining Credit Decisions with Amazon SageMaker",
+    "shortName": "Explaining Credit Decisions",
+    "priority": 0,
+    "desc": "Given the increasing complexity of machine learning models, the need for model explainability has been growing lately. Some governments have also introduced stricter regulations that mandate a right to explanation from machine learning models. In this solution, we take a look at how Amazon SageMaker can be used to explain individual predictions from machine learning models.",
+    "meta": "explainability classification interpretability shap credit default",
+    "tags": ["financial services", "model explainability"],
+    "parameters": [
+        {
+            "name": "ResourceName",
+            "type": "text",
+            "default": "sagemaker-solutions-ecd"          
+        },
+        {
+            "name": "CreateSageMakerNotebookInstance",
+            "type": "text",
+            "default": "false"          
+        },
+        {
+            "name": "SageMakerNotebookInstanceType",
+            "type": "text",
+            "default": "ml.t3.medium"          
+        },
+        {
+            "name": "StackVersion", 
+            "type": "text", 
+            "default": "release",
+            "options": ["release", "development"]       
+        }
+    ],
+    "acknowledgements": ["CAPABILITY_IAM","CAPABILITY_NAMED_IAM"],
+    "cloudFormationTemplate": "https://s3-us-west-2.amazonaws.com/sagemaker-solutions-us-west-2/Explaining-credit-decisions/cloudformation/template.yaml",
+    "serviceCatalogProduct": "TBD",
+    "copyS3Source": "https://s3-us-west-2.amazonaws.com/sagemaker-solutions-us-west-2/Explaining-credit-decisions/sagemaker",
+    "notebookPaths": [
+        "/source/sagemaker/notebooks/0_introduction.ipynb",
+        "/source/sagemaker/notebooks/1_datasets.ipynb",
+        "/source/sagemaker/notebooks/2_training.ipynb",
+        "/source/sagemaker/notebooks/3_endpoint.ipynb",
+        "/source/sagemaker/notebooks/4_batch_transform.ipynb",
+        "/source/sagemaker/notebooks/5_dashboard.ipynb",
+        "/source/sagemaker/notebooks/6_conclusion.ipynb"
+    ],
+    "permissions": "TBD"
+ }

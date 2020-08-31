@@ -5,5 +5,4 @@ jinja2
 jsonschema
 numpy
 pandas
-python-dotenv
 sagemaker

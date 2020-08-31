@@ -14,6 +14,13 @@ Parameters:
       names cannot contain capital letters).
     AllowedPattern: '^[a-z0-9\-]+$'
     ConstraintDescription: 'Only allowed to use lowercase letters, hyphens and/or numbers.'
+  CreateSageMakerNotebookInstance:
+    Description: Create a SageMaker Notebook Instance as part of the stack?
+    Type: String
+    Default: 'true'
+    AllowedValues: 
+      - 'true'
+      - 'false'
   SageMakerNotebookInstanceType:
     Description: |
       Amazon SageMaker Notebook instance type
@@ -32,9 +39,11 @@ Parameters:
 Mappings: 
   SolutionsS3BucketNamePrefix: 
     development: 
-      Prefix: sagemaker-solutions
+      Prefix: sagemaker-solutions-build
     release: 
       Prefix: sagemaker-solutions
+Conditions:
+  CreateSageMakerNotebookInstance: !Equals [ !Ref CreateSageMakerNotebookInstance, 'true' ]
 Resources:
   S3Bucket:
     Type: "AWS::S3::Bucket"
@@ -88,6 +97,7 @@ Resources:
           - ${SolutionsS3BucketNamePrefix}-${AWS::Region}
           - SolutionsS3BucketNamePrefix:
               Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
+        CreateSageMakerNotebookInstance: !Ref CreateSageMakerNotebookInstance
         SageMakerNotebookInstanceType: !Ref SageMakerNotebookInstanceType
   SolutionAssistantStack:
     Type: "AWS::CloudFormation::Stack"
@@ -105,12 +115,23 @@ Resources:
               Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
         ECRRepository: !GetAtt SageMakerStack.Outputs.ECRRepository
 Outputs:
-  S3BucketName:
-    Description: Amazon S3 Bucket that will be used to store credits data.
+  AwsAccountId:
+    Value: !Ref AWS::AccountId
+  AwsRegion:
+    Value: !Ref AWS::Region
+  EcrRepository:
+    Value: !GetAtt SageMakerStack.Outputs.ECRRepository
+  GlueDatabase:
+    Value: !GetAtt GlueStack.Outputs.GlueDatabase
+  GlueWorkflow:
+    Value: !GetAtt GlueStack.Outputs.GlueWorkflow
+  ResourceName:
+    Value: !Ref ResourceName
+  S3Bucket:
     Value: !Ref S3Bucket
-  SageMakerNotebookInstanceSignOn:
-    Description: Amazon SageMaker Notebook Instance URL to orchestrate AWS Glue and Amazon SageMaker Jobs.
-    Value: !GetAtt SageMakerStack.Outputs.SageMakerNotebookInstanceSignOn
+  SagemakerIamRole:
+    Value: !GetAtt SageMakerStack.Outputs.SageMakerIAMRole
   SageMakerNotebookInstanceNotebooks:
     Description: URL to notebooks on the Amazon SageMaker Notebook Instance.
+    Condition: CreateSageMakerNotebookInstance
     Value: !GetAtt SageMakerStack.Outputs.SageMakerNotebookInstanceNotebooks
