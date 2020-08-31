@@ -29,6 +29,6 @@ fi
 if ! pip freeze | grep -q 'jupyter-server-proxy==1.3.2'; then
     pip uninstall -y nbserverproxy || true
     pip install --upgrade jupyter-server-proxy==1.3.2
-    echo 'Restarting jupyter-server. Jupyter notebook/terminals will freeze, so please refresh page to resume interaction.' > /dev/stderr
+    echo 'Restarting jupyter-server. Jupyter notebook/terminals will freeze, so please refresh page to resume interaction.'
     sudo initctl restart jupyter-server --no-wait
 fi
