@@ -116,9 +116,11 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS:
-                - !Sub "arn:aws:iam::${AWS::AccountId}:role/${SageMakerExecutionIAMRole}"
-                - !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/${SageMakerExecutionIAMRole}/SageMaker"
+              AWS: !If
+                - CreateSageMakerNotebookInstance
+                - - !Sub "arn:aws:iam::${AWS::AccountId}:role/${SageMakerExecutionIAMRole}"
+                  - !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/${SageMakerExecutionIAMRole}/SageMaker"
+                - !Ref AWS::NoValue
               Service:
                 - "sagemaker.amazonaws.com"
             Action:
@@ -356,11 +358,9 @@ Resources:
           - id: W28
             reason: Custom name is more descriptive.
 Outputs:
-  SageMakerNotebookInstanceSignOn:
-    Description: Amazon SageMaker Notebook Instance URL to orchestrate AWS Glue and Amazon SageMaker Jobs.
-    Value: !Sub "https://console.aws.amazon.com/sagemaker/home?region=${AWS::Region}#/notebook-instances/openNotebook/${SageMakerNotebookInstance.NotebookInstanceName}?view=classic"
   SageMakerNotebookInstanceNotebooks:
     Description: URL to notebooks on the Amazon SageMaker Notebook Instance.
+    Condition: CreateSageMakerNotebookInstance
     Value: !Sub "https://${SageMakerNotebookInstance.NotebookInstanceName}.notebook.${AWS::Region}.sagemaker.aws/tree/notebooks"
   ECRRepository:
     Description: Amazon ECR Repository

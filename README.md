@@ -42,7 +42,7 @@ Click on one of the following buttons to *quick create* the AWS CloudFormation S
     <td>N. Virginia</td>
     <td>us-east-1</td>
     <td align="center">
-      <a href="https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://sagemaker-solutions-us-east-1.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-ecd&param_ResourceName=sagemaker-solutions-ecd">
+      <a href="https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://sagemaker-solutions-us-east-1.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-explaining-credit-decisions&param_ResourceName=sagemaker-solutions-explaining-credit-decisions">
         <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png">
       </a>
     </td>
@@ -52,7 +52,7 @@ Click on one of the following buttons to *quick create* the AWS CloudFormation S
     <td>Ohio</td>
     <td>us-east-2</td>
     <td align="center">
-      <a href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-east-2.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-ecd&param_ResourceName=sagemaker-solutions-ecd">
+      <a href="https://us-east-2.console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-east-2.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-explaining-credit-decisions&param_ResourceName=sagemaker-solutions-explaining-credit-decisions">
         <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png">
       </a>
     </td>
@@ -62,7 +62,7 @@ Click on one of the following buttons to *quick create* the AWS CloudFormation S
     <td>Oregon</td>
     <td>us-west-2</td>
     <td align="center">
-      <a href="https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-west-2.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-ecd&param_ResourceName=sagemaker-solutions-ecd">
+      <a href="https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://sagemaker-solutions-us-west-2.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/template.yaml&stackName=sagemaker-solutions-explaining-credit-decisions&param_ResourceName=sagemaker-solutions-explaining-credit-decisions">
         <img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png">
       </a>
     </td>

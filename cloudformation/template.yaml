@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >
   (SA0003) -
-  sagemaker-explaining-credit-decisions:
+  sagemaker-solutions-explaining-credit-decisions:
   Used as root template for 'explaining credit decisions' stack.
   Version 1
 Parameters:
@@ -12,8 +12,10 @@ Parameters:
       Can be the same as the stack name used by AWS CloudFormation, but this field has extra
       constraints because it's used to name resources with restrictions (e.g. Amazon S3 bucket
       names cannot contain capital letters).
-    AllowedPattern: '^sagemaker-solutions-[a-z0-9\-]+$'
-    ConstraintDescription: 'Only allowed to use lowercase letters, hyphens and/or numbers.'
+    AllowedPattern: '^sagemaker-solutions-explaining-[a-z0-9\-]{1,32}$'
+    ConstraintDescription: |
+      Only allowed to use lowercase letters, hyphens and/or numbers.
+      Should also start with 'sagemaker-solutions-explaining-' for permission management.
   CreateSageMakerNotebookInstance:
     Description: Create a SageMaker Notebook Instance as part of the stack?
     Type: String

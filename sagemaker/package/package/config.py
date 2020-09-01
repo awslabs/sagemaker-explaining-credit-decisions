@@ -29,5 +29,4 @@ GLUE_WORKFLOW = cfn_stack_outputs['explain_glue_workflow']
 ECR_REPOSITORY = cfn_stack_outputs['explain_ecr_repository']
 DOCKER_CONFIG = '/home/ec2-user/.docker/config.json'
 
-TAG_KEY = 'sagemaker_solution'
-TAG_VALUE = 'explaining_credit_decisions'
+TAG_KEY = 'sagemaker-solution'
