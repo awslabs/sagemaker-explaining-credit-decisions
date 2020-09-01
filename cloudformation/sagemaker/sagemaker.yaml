@@ -55,7 +55,7 @@ Resources:
                 - !If [StackDevelopment, 'ec2.amazonaws.com', 'sagemaker.amazonaws.com']
             Action:
               - 'sts:AssumeRole'
-      RoleName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-execution-role
+      RoleName: !Sub ${ResourceName}-${AWS::Region}-execution-role
     Metadata:
       cfn_nag:
         rules_to_suppress:
@@ -65,7 +65,7 @@ Resources:
     Type: AWS::IAM::Policy
     Condition: CreateSageMakerNotebookInstance
     Properties:
-      PolicyName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-execution-policy
+      PolicyName: !Sub ${ResourceName}-${AWS::Region}-execution-policy
       Roles:
         - !Ref SageMakerExecutionIAMRole
       PolicyDocument:
