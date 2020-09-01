@@ -1,5 +1,5 @@
 {
-    "id": "sagemaker-solutions-ecd",
+    "id": "sm-soln-ecd",
     "name": "Explaining Credit Decisions with Amazon SageMaker",
     "shortName": "Explaining Credit Decisions",
     "priority": 0,
@@ -10,7 +10,7 @@
         {
             "name": "ResourceName",
             "type": "text",
-            "default": "sagemaker-solutions-ecd"          
+            "default": "sm-soln-ecd"          
         },
         {
             "name": "CreateSageMakerNotebookInstance",

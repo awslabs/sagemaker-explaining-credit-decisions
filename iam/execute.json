@@ -118,7 +118,7 @@
                 "iam:PassRole"
             ],
             "Resource": [
-                "arn:aws:iam::*:role/sagemaker-solutions-*"
+                "arn:aws:iam::*:role/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -127,7 +127,7 @@
                 "iam:GetRole"
             ],
             "Resource": [
-                "arn:aws:iam::*:role/sagemaker-solutions-*"
+                "arn:aws:iam::*:role/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -136,7 +136,7 @@
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::sagemaker-solutions-us-west-2"
+                "arn:aws:s3:::sagemaker-solutions-*"
             ],
             "Effect": "Allow"
         },
@@ -154,7 +154,7 @@
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::sagemaker-solutions-*"
+                "arn:aws:s3:::sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -166,7 +166,7 @@
                 "s3:AbortMultipartUpload"
             ],
             "Resource": [
-                "arn:aws:s3:::sagemaker-solutions-*"
+                "arn:aws:s3:::sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -192,8 +192,8 @@
                 "ecr:BatchDeleteImage"
             ],
             "Resource": [
-                "arn:aws:ecr:us-west-2:*:repository/sagemaker-solutions-*",
-                "arn:aws:ecr:us-west-2:*:repository/sagemaker-scikit-learn"
+                "arn:aws:ecr:*:*:repository/sm-soln-*",
+                "arn:aws:ecr:*:*:repository/sagemaker-scikit-learn"
             ],
             "Effect": "Allow"
         },
@@ -213,9 +213,9 @@
                 "glue:GetTables"
             ],
             "Resource": [
-                "arn:aws:glue:us-west-2:*:catalog",
-                "arn:aws:glue:us-west-2:*:database/sagemaker-solutions-*",
-                "arn:aws:glue:us-west-2:*:table/*"
+                "arn:aws:glue:*:*:catalog",
+                "arn:aws:glue:*:*:database/sm-soln-*",
+                "arn:aws:glue:*:*:table/*"
             ],
             "Effect": "Allow"
         }

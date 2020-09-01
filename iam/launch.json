@@ -75,7 +75,7 @@
                 "ecr:DeleteRepository"
             ],
             "Resource": [
-                "arn:aws:ecr:*:*:repository/sagemaker-solutions-*"
+                "arn:aws:ecr:*:*:repository/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -85,7 +85,7 @@
             ],
             "Resource": [
                 "arn:aws:glue:*:*:catalog",
-                "arn:aws:glue:*:*:database/sagemaker-solutions-*"
+                "arn:aws:glue:*:*:database/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -95,9 +95,9 @@
             ],
             "Resource": [
                 "arn:aws:glue:*:*:catalog",
-                "arn:aws:glue:*:*:database/sagemaker-solutions-*",
-                "arn:aws:glue:*:*:table/sagemaker-solutions-*",
-                "arn:aws:glue:*:*:userDefinedFunction/sagemaker-solutions-*"
+                "arn:aws:glue:*:*:database/sm-soln-*",
+                "arn:aws:glue:*:*:table/sm-soln-*",
+                "arn:aws:glue:*:*:userDefinedFunction/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -125,7 +125,7 @@
                 "glue:GetCrawler"
             ],
             "Resource": [
-                "arn:aws:glue:*:*:crawler/sagemaker-solutions-*"
+                "arn:aws:glue:*:*:crawler/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -136,7 +136,7 @@
                 "glue:GetTrigger"
             ],
             "Resource": [
-                "arn:aws:glue:*:*:trigger/sagemaker-solutions-*"
+                "arn:aws:glue:*:*:trigger/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -153,7 +153,7 @@
                 "iam:AttachRolePolicy"
             ],
             "Resource": [
-                "arn:aws:iam::*:role/sagemaker-solutions-*"
+                "arn:aws:iam::*:role/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -163,7 +163,7 @@
                 "iam:DeletePolicy"
             ],
             "Resource": [
-                "arn:aws:iam::*:policy/sagemaker-solutions-*"
+                "arn:aws:iam::*:policy/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -178,7 +178,7 @@
                 "lambda:GetFunctionConfiguration"
             ],
             "Resource": [
-                "arn:aws:lambda:*:*:function:sagemaker-solutions-*"
+                "arn:aws:lambda:*:*:function:sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -191,7 +191,7 @@
                 "s3:PutEncryptionConfiguration"
             ],
             "Resource": [
-                "arn:aws:s3:::sagemaker-solutions-*"
+                "arn:aws:s3:::sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -200,7 +200,7 @@
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::sagemaker-solutions-*/*"
+                "arn:aws:s3:::sm-soln-*/*"
             ],
             "Effect": "Allow"
         },
@@ -212,7 +212,7 @@
                 "sagemaker:DescribeNotebookInstance"
             ],
             "Resource": [
-                "arn:aws:sagemaker:*:*:notebook-instance/sagemaker-solutions-*"
+                "arn:aws:sagemaker:*:*:notebook-instance/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -223,7 +223,7 @@
                 "sagemaker:DescribeNotebookInstanceLifecycleConfig"
             ],
             "Resource": [
-                "arn:aws:sagemaker:*:*:notebook-instance-lifecycle-config/sagemaker-solutions-*"
+                "arn:aws:sagemaker:*:*:notebook-instance-lifecycle-config/sm-soln-*"
             ],
             "Effect": "Allow"
         }
