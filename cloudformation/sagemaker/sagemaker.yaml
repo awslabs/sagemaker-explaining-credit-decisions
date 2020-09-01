@@ -338,14 +338,14 @@ Resources:
               # create stack_outputs.json with stack resources that are required in notebook(s)
               touch stack_outputs.json
               echo '{' >> stack_outputs.json
-              echo '  "aws_account_id": "${AWS::AccountId}",' >> stack_outputs.json
-              echo '  "aws_region": "${AWS::Region}",' >> stack_outputs.json
-              echo '  "explain_resource_name": "${ResourceName}",' >> stack_outputs.json
-              echo '  "explain_s3_bucket": "${S3BucketName}",' >> stack_outputs.json
-              echo '  "explain_sagemaker_iam_role": "${SageMakerIAMRole.Arn}",' >> stack_outputs.json
-              echo '  "explain_glue_database": "${GlueDatabase}",' >> stack_outputs.json
-              echo '  "explain_glue_workflow": "${GlueWorkflow}",' >> stack_outputs.json
-              echo '  "explain_ecr_repository": "${ECRRepository}"' >> stack_outputs.json
+              echo '  "AwsAccountId": "${AWS::AccountId}",' >> stack_outputs.json
+              echo '  "AwsRegion": "${AWS::Region}",' >> stack_outputs.json
+              echo '  "ResourceName": "${ResourceName}",' >> stack_outputs.json
+              echo '  "S3Bucket": "${S3BucketName}",' >> stack_outputs.json
+              echo '  "SagemakerIamRole": "${SageMakerIAMRole.Arn}",' >> stack_outputs.json
+              echo '  "GlueDatabase": "${GlueDatabase}",' >> stack_outputs.json
+              echo '  "GlueWorkflow": "${GlueWorkflow}",' >> stack_outputs.json
+              echo '  "EcrRepository": "${ECRRepository}"' >> stack_outputs.json
               echo '}' >> stack_outputs.json
               EOF
   ECRRepository:
