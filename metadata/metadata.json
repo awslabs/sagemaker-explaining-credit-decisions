@@ -30,9 +30,9 @@
         }
     ],
     "acknowledgements": ["CAPABILITY_IAM","CAPABILITY_NAMED_IAM"],
-    "cloudFormationTemplate": "https://s3-us-west-2.amazonaws.com/sagemaker-solutions-us-west-2/Explaining-credit-decisions/cloudformation/template.yaml",
+    "cloudFormationTemplate": "https://sagemaker-solutions-us-west-2.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/template.yaml",
     "serviceCatalogProduct": "TBD",
-    "copyS3Source": "https://s3-us-west-2.amazonaws.com/sagemaker-solutions-us-west-2/Explaining-credit-decisions/sagemaker",
+    "copyS3Source": "https://sagemaker-solutions-us-west-2.s3.amazonaws.com/Explaining-credit-decisions/sagemaker",
     "notebookPaths": [
         "/source/sagemaker/notebooks/0_introduction.ipynb",
         "/source/sagemaker/notebooks/1_datasets.ipynb",

@@ -72,7 +72,7 @@ Resources:
     Type: "AWS::CloudFormation::Stack"
     Properties:
       TemplateURL: !Sub
-        - "https://s3.amazonaws.com/${SolutionsS3BucketNamePrefix}-${AWS::Region}/Explaining-credit-decisions/cloudformation/glue/glue.yaml"
+        - "https://${SolutionsS3BucketNamePrefix}-${AWS::Region}.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/glue/glue.yaml"
         - SolutionsS3BucketNamePrefix:
             Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
@@ -86,7 +86,7 @@ Resources:
     Type: "AWS::CloudFormation::Stack"
     Properties:
       TemplateURL: !Sub
-        - "https://s3.amazonaws.com/${SolutionsS3BucketNamePrefix}-${AWS::Region}/Explaining-credit-decisions/cloudformation/sagemaker/sagemaker.yaml"
+        - "https://${SolutionsS3BucketNamePrefix}-${AWS::Region}.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/sagemaker/sagemaker.yaml"
         - SolutionsS3BucketNamePrefix:
             Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
@@ -105,7 +105,7 @@ Resources:
     Type: "AWS::CloudFormation::Stack"
     Properties:
       TemplateURL: !Sub
-        - "https://s3.amazonaws.com/${SolutionsS3BucketNamePrefix}-${AWS::Region}/Explaining-credit-decisions/cloudformation/solution-assistant/solution-assistant.yaml"
+        - "https://${SolutionsS3BucketNamePrefix}-${AWS::Region}.s3.amazonaws.com/Explaining-credit-decisions/cloudformation/solution-assistant/solution-assistant.yaml"
         - SolutionsS3BucketNamePrefix:
             Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
