@@ -210,6 +210,15 @@
         },
         {
             "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::sagemaker-solutions-*/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
                 "sagemaker:CreateNotebookInstance",
                 "sagemaker:StopNotebookInstance",
                 "sagemaker:DeleteNotebookInstance",
