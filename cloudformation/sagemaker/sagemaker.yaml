@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Stack for Amazon SageMaker resources.
 Parameters:
-  ResourceName:
+  SolutionPrefix:
     Type: String
     Description: |
       Used to name resources created as part of this stack (and inside nested stacks too).
@@ -55,7 +55,7 @@ Resources:
                 - !If [StackDevelopment, 'ec2.amazonaws.com', 'sagemaker.amazonaws.com']
             Action:
               - 'sts:AssumeRole'
-      RoleName: !Sub ${ResourceName}-${AWS::Region}-execution-role
+      RoleName: !Sub ${SolutionPrefix}-${AWS::Region}-execution-role
     Metadata:
       cfn_nag:
         rules_to_suppress:
@@ -65,7 +65,7 @@ Resources:
     Type: AWS::IAM::Policy
     Condition: CreateSageMakerNotebookInstance
     Properties:
-      PolicyName: !Sub ${ResourceName}-${AWS::Region}-execution-policy
+      PolicyName: !Sub ${SolutionPrefix}-${AWS::Region}-execution-policy
       Roles:
         - !Ref SageMakerExecutionIAMRole
       PolicyDocument:
@@ -116,16 +116,13 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: !If
-                - CreateSageMakerNotebookInstance
-                - - !Sub "arn:aws:iam::${AWS::AccountId}:role/${SageMakerExecutionIAMRole}"
-                  - !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/${SageMakerExecutionIAMRole}/SageMaker"
-                - !Ref AWS::NoValue
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:root"
               Service:
                 - "sagemaker.amazonaws.com"
             Action:
               - 'sts:AssumeRole'
-      RoleName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-role
+      RoleName: !Sub ${SolutionPrefix}-${AWS::Region}-sagemaker-role
     Metadata:
       cfn_nag:
         rules_to_suppress:
@@ -134,7 +131,7 @@ Resources:
   SageMakerIAMPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: !Sub ${ResourceName}-${AWS::Region}-sagemaker-policy
+      PolicyName: !Sub ${SolutionPrefix}-${AWS::Region}-sagemaker-policy
       Roles:
         - !Ref SageMakerIAMRole
       PolicyDocument:
@@ -201,12 +198,18 @@ Resources:
               - logs:DescribeLogStreams
             Resource:
               - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/sagemaker/*"
+              - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*"
           - Effect: Allow
             Action:
               - logs:GetLogEvents
               - logs:PutLogEvents
             Resource:
               - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/sagemaker/*:log-stream:*"
+          - Effect: Allow
+            Action:
+              - logs:GetLogEvents
+            Resource:
+              - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*:log-stream:*"
           - Effect: Allow
             Action:
               - iam:PassRole
@@ -284,6 +287,13 @@ Resources:
               - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:catalog"
               - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/${GlueDatabase}"
               - !Sub "arn:aws:glue:${AWS::Region}:${AWS::AccountId}:table/*"
+          - Effect: Allow
+            Action:
+              - codebuild:BatchGetBuilds
+              - codebuild:StartBuild
+            Resource:
+              - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${ContainerBuildProject}"
+              - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:build/*"
     Metadata:
       cfn_nag:
         rules_to_suppress:
@@ -301,7 +311,7 @@ Resources:
       DirectInternetAccess: Enabled
       InstanceType: !Ref SageMakerNotebookInstanceType
       LifecycleConfigName: !GetAtt SageMakerNotebookInstanceLifecycleConfig.NotebookInstanceLifecycleConfigName
-      NotebookInstanceName: !Sub ${ResourceName}-notebook
+      NotebookInstanceName: !Sub ${SolutionPrefix}-notebook
       RoleArn: !GetAtt SageMakerExecutionIAMRole.Arn
       VolumeSizeInGB: 120
     Metadata:
@@ -313,15 +323,14 @@ Resources:
     Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
     Condition: CreateSageMakerNotebookInstance
     Properties:
-      NotebookInstanceLifecycleConfigName: !Sub ${ResourceName}-lifecycle-config
+      NotebookInstanceLifecycleConfigName: !Sub ${SolutionPrefix}-lifecycle-config
       OnStart:
         - Content:
             Fn::Base64: |
               set -e
               # perform following actions as ec2-user
               sudo -u ec2-user -i <<EOF
-              cd /home/ec2-user/SageMaker
-              bash setup.sh
+              /home/ec2-user/anaconda3/envs/python3/bin/python /home/ec2-user/SageMaker/env_setup.py --force --log-level DEBUG
               EOF
       OnCreate:
         - Content:
@@ -329,34 +338,141 @@ Resources:
               set -e
               # perform following actions as ec2-user
               sudo -u ec2-user -i <<EOF
+              echo "Adding to ~/.aws/config" 
               # assume role for aws cli (assumes ~/.aws/config already exists and has default profile)
               echo "role_arn = ${SageMakerIAMRole.Arn}" >> ~/.aws/config
               echo "credential_source = Ec2InstanceMetadata" >> ~/.aws/config
+              cat ~/.aws/config
               cd /home/ec2-user/SageMaker
-              # copy source files
-              aws s3 cp s3://${SolutionsS3BucketName}/Explaining-credit-decisions/sagemaker/ . --recursive
-              # create stack_outputs.json with stack resources that are required in notebook(s)
+              echo "Copying source files" 
+              aws s3 cp s3://${SolutionsS3BucketName}/Explaining-credit-decisions/sagemaker_notebook_instance/ . --recursive
+              echo "Creating stack_outputs.json with stack resources that are required in notebook(s)" 
               touch stack_outputs.json
               echo '{' >> stack_outputs.json
               echo '  "AwsAccountId": "${AWS::AccountId}",' >> stack_outputs.json
               echo '  "AwsRegion": "${AWS::Region}",' >> stack_outputs.json
-              echo '  "ResourceName": "${ResourceName}",' >> stack_outputs.json
+              echo '  "SolutionPrefix": "${SolutionPrefix}",' >> stack_outputs.json
               echo '  "S3Bucket": "${S3BucketName}",' >> stack_outputs.json
-              echo '  "SagemakerIamRole": "${SageMakerIAMRole.Arn}",' >> stack_outputs.json
+              echo '  "IamRole": "${SageMakerIAMRole.Arn}",' >> stack_outputs.json
               echo '  "GlueDatabase": "${GlueDatabase}",' >> stack_outputs.json
               echo '  "GlueWorkflow": "${GlueWorkflow}",' >> stack_outputs.json
-              echo '  "EcrRepository": "${ECRRepository}"' >> stack_outputs.json
+              echo '  "EcrRepository": "${ECRRepository}",' >> stack_outputs.json
+              echo '  "ContainerBuildProject": "${ContainerBuildProject}",' >> stack_outputs.json
+              echo '  "SagemakerMode": "NotebookInstance"' >> stack_outputs.json
               echo '}' >> stack_outputs.json
+              cat stack_outputs.json 
               EOF
   ECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: !Sub ${ResourceName}
+      RepositoryName: !Sub ${SolutionPrefix}
     Metadata:
       cfn_nag:
         rules_to_suppress:
           - id: W28
             reason: Custom name is more descriptive.
+  ContainerBuildIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "codebuild.amazonaws.com"
+            Action:
+              - 'sts:AssumeRole'
+      RoleName: !Sub ${SolutionPrefix}-${AWS::Region}-codebuild-role
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W28
+            reason: Using explicit name to restrict permissions
+  ContainerBuildIAMPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub ${SolutionPrefix}-${AWS::Region}-codebuild-policy
+      Roles:
+        - !Ref ContainerBuildIAMRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - ecr:GetAuthorizationToken
+            Resource:
+              - "*"
+          - Effect: Allow
+            Action:
+              - ecr:CompleteLayerUpload
+              - ecr:UploadLayerPart
+              - ecr:InitiateLayerUpload
+              - ecr:PutImage
+              - ecr:GetDownloadUrlForLayer
+              - ecr:BatchGetImage
+              - ecr:BatchCheckLayerAvailability
+              - ecr:DescribeImages
+              - ecr:BatchDeleteImage
+            Resource:
+              - !Sub "arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/${ECRRepository}"
+              - !Sub "arn:aws:ecr:${AWS::Region}:*:repository/sagemaker-scikit-learn"
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:DescribeLogStreams
+              - logs:GetLogEvents
+              - logs:PutLogEvents
+            Resource:
+              - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*"
+          - Effect: Allow
+            Action:
+              - s3:ListBucket
+            Resource:
+              - !Sub "arn:aws:s3:::${S3BucketName}"
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+              - s3:DeleteObject
+              - s3:AbortMultipartUpload
+            Resource:
+              - !Sub "arn:aws:s3:::${S3BucketName}/*"
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W12
+            reason: ecr:GetAuthorizationToken is resource agnostic, so '*' is used.
+  ContainerBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub "${SolutionPrefix}-container-build"
+      ServiceRole: !Ref ContainerBuildIAMRole
+      Source:
+        Type: S3
+        Location: !Sub "${S3BucketName}/containers/model.zip"
+      Environment:
+        ComputeType: "BUILD_GENERAL1_MEDIUM"
+        Image: "aws/codebuild/standard:4.0"
+        Type: "LINUX_CONTAINER"
+        PrivilegedMode: True
+        EnvironmentVariables:
+          - Name: "AWS_REGION"
+            Value: !Ref AWS::Region
+          - Name: "AWS_ACCOUNT"
+            Value: !Ref AWS::AccountId
+          - Name: "ECR_REPOSITORY"
+            Value: !Ref ECRRepository
+          - Name: "ECR_IMAGE"
+            Value: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ECRRepository}:latest"
+      Artifacts:
+        Type: "NO_ARTIFACTS"
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W32
+            reason: Overriding encryption requirements for codebuild
 Outputs:
   SageMakerNotebookInstanceNotebooks:
     Description: URL to notebooks on the Amazon SageMaker Notebook Instance.
@@ -365,6 +481,9 @@ Outputs:
   ECRRepository:
     Description: Amazon ECR Repository
     Value: !Ref ECRRepository
+  ContainerBuildProject:
+    Description: CodeBuild Project for Docker container building
+    Value: !Ref ContainerBuildProject
   SageMakerIAMRole:
     Description: Amazon SageMaker Solution IAM Role
     Value: !GetAtt SageMakerIAMRole.Arn

@@ -5,7 +5,7 @@ Description: >
   Used as root template for 'explaining credit decisions' stack.
   Version 1
 Parameters:
-  ResourceName:
+  SolutionPrefix:
     Type: String
     Description: |
       Used to name resources created as part of this stack (and inside nested stacks too).
@@ -50,7 +50,7 @@ Resources:
   S3Bucket:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: !Sub ${ResourceName}-${AWS::Region}-${AWS::AccountId}
+      BucketName: !Sub ${SolutionPrefix}-${AWS::Region}-${AWS::AccountId}
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -76,7 +76,7 @@ Resources:
         - SolutionsS3BucketNamePrefix:
             Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
-        ResourceName: !Ref ResourceName
+        SolutionPrefix: !Ref SolutionPrefix
         S3BucketName: !Ref S3Bucket
         SolutionsS3BucketName: !Sub
         - ${SolutionsS3BucketNamePrefix}-${AWS::Region}
@@ -90,7 +90,7 @@ Resources:
         - SolutionsS3BucketNamePrefix:
             Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
-        ResourceName: !Ref ResourceName
+        SolutionPrefix: !Ref SolutionPrefix
         StackVersion: !Ref StackVersion
         S3BucketName: !Ref S3Bucket
         GlueDatabase: !GetAtt GlueStack.Outputs.GlueDatabase
@@ -109,7 +109,7 @@ Resources:
         - SolutionsS3BucketNamePrefix:
             Fn::FindInMap: [SolutionsS3BucketNamePrefix, Ref: StackVersion, Prefix]
       Parameters:
-        ResourceName: !Ref ResourceName
+        SolutionPrefix: !Ref SolutionPrefix
         S3BucketName: !Ref S3Bucket
         SolutionsS3BucketName: !Sub
           - ${SolutionsS3BucketNamePrefix}-${AWS::Region}
@@ -123,17 +123,24 @@ Outputs:
     Value: !Ref AWS::Region
   EcrRepository:
     Value: !GetAtt SageMakerStack.Outputs.ECRRepository
+  ContainerBuildProject:
+    Value: !GetAtt SageMakerStack.Outputs.ContainerBuildProject
   GlueDatabase:
     Value: !GetAtt GlueStack.Outputs.GlueDatabase
   GlueWorkflow:
     Value: !GetAtt GlueStack.Outputs.GlueWorkflow
-  ResourceName:
-    Value: !Ref ResourceName
+  SolutionPrefix:
+    Value: !Ref SolutionPrefix
   S3Bucket:
     Value: !Ref S3Bucket
-  SagemakerIamRole:
+  IamRole:
     Value: !GetAtt SageMakerStack.Outputs.SageMakerIAMRole
-  SageMakerNotebookInstanceNotebooks:
+  SagemakerNotebookInstanceNotebooks:
     Description: URL to notebooks on the Amazon SageMaker Notebook Instance.
     Condition: CreateSageMakerNotebookInstance
     Value: !GetAtt SageMakerStack.Outputs.SageMakerNotebookInstanceNotebooks
+  SagemakerMode:
+    Value: !If
+      - CreateSageMakerNotebookInstance
+      - "NotebookInstance"
+      - "Studio"

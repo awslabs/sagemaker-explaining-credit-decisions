@@ -107,17 +107,31 @@
         },
         {
             "Action": [
-                "glue:CreateCrawler",
-                "glue:DeleteCrawler",
                 "glue:CreateClassifier",
-                "glue:DeleteClassifier",
-                "glue:CreateJob",
-                "glue:DeleteJob",
+                "glue:DeleteClassifier"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
                 "glue:CreateWorkflow",
                 "glue:DeleteWorkflow"
             ],
             "Resource": [
-                "*"
+                "arn:aws:glue:*:*:workflow/sm-soln-*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "glue:CreateJob",
+                "glue:DeleteJob"
+            ],
+            "Resource": [
+                "arn:aws:glue:*:*:job/sm-soln-*"
             ],
             "Effect": "Allow"
         },
@@ -239,6 +253,14 @@
                 "arn:aws:sagemaker:*:*:notebook-instance-lifecycle-config/sm-soln-*"
             ],
             "Effect": "Allow"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "codebuild:CreateProject",
+                "codebuild:DeleteProject"
+            ],
+            "Resource": "arn:aws:codebuild:*:*:project/sm-soln-*"
         }
     ]
 }

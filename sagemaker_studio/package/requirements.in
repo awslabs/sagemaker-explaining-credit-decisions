@@ -1,0 +1,8 @@
+bokeh
+boto3
+docker
+jinja2
+jsonschema
+numpy
+pandas
+sagemaker

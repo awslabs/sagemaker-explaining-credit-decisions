@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - pip install sagemaker==1.55.4
+  build:
+    commands:
+      - echo Started $ECR_IMAGE build at `date`.
+      - |
+        SM_ACCOUNT=$(python ./src/get_sm_account.py --region $AWS_REGION --framework scikit-learn)
+        $(aws ecr get-login --region $AWS_REGION --registry-ids $AWS_ACCOUNT --no-include-email)
+        $(aws ecr get-login --region $AWS_REGION --registry-ids $SM_ACCOUNT --no-include-email)
+        SCIKIT_LEARN_IMAGE=$SM_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/sagemaker-scikit-learn:0.20.0-cpu-py3
+        docker build -t $ECR_REPOSITORY --build-arg SCIKIT_LEARN_IMAGE=$SCIKIT_LEARN_IMAGE .
+        docker tag $ECR_REPOSITORY $ECR_IMAGE
+        docker push $ECR_IMAGE
+      - echo Completed $ECR_IMAGE build at `date`.

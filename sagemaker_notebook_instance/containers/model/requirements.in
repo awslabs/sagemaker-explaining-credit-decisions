@@ -1,0 +1,6 @@
+scikit-learn
+lightgbm
+joblib
+shap
+# package source will be provided at run time
+-r ../../package/requirements.txt

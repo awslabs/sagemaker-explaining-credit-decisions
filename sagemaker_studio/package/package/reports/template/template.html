@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="../template/styles.css">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <!-- Bokeh JavaScript -->
+    {{ bokeh_js }}
+    {{ script_summary }}
+    {{ script_detailed }}
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+    <title>Explanation Report</title>
+</head>
+
+<body>
+
+    <div class="container py-5">
+
+        <div class="jumbotron bg-dark text-white">
+            <div class="px-0">
+                <h1 class="display-4 font-italic">Explanation Report</h1>
+                <p class="lead my-3">
+                    Credit default risk prediction explained using SHapley Additive exPlanations (SHAP).
+                </p>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <h6 class="card-header m-0 font-weight-bold">
+                Summary Explanation
+                <div class="float-sm-right" width="10px" data-toggle="modal" data-target="#exampleModal">
+                    <svg class="bi bi-info-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd" /><path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" /><circle cx="8" cy="4.5" r="1" /></svg>
+                </div>
+            </h6>
+            <div class="card-body" align="center" style="overflow-x:scroll;">
+                {{ div_summary }}
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <h6 class="card-header m-0 font-weight-bold">
+                Detailed Explanation
+                <div class="float-sm-right" width="10px" data-toggle="modal" data-target="#exampleModal">
+                    <svg class="bi bi-info-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd" /><path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" /><circle cx="8" cy="4.5" r="1" /></svg>
+                </div>
+            </h6>
+            <div class="card-body" align="center" style="overflow-x:scroll;">
+                {{ div_detailed }}
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold">
+                    Input Features
+                </h6>
+            </div>
+            <div class="card-body" align="center" style="overflow-x:scroll;">
+                {{ table }}
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Waterfall Chart</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            A waterfall chart can be used to show the cumulative effect of each feature. Starting with
+                            the baseline probability for credit defaults (at the bottom of the chart), we can see how
+                            each additional feature shifts the probability. Green arrows indicate that the feature <span
+                                style="color:#69AE35"><i>decreased</i> the predicted credit default
+                                risk</span> for the individual credit application. While red arrows indicate that the
+                            feature <span style="color:#FF5733"><i>increased</i> the
+                                predicted credit default risk</span> for the individual credit application. After all
+                            features have been considered, we reach the final predicted credit default risk (at the top
+                            of the chart).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

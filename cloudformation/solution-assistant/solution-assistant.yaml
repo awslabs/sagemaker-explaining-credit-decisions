@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Stack for Solution Helper resources.
 Parameters:
-  ResourceName:
+  SolutionPrefix:
     Type: String
     Description: |
       Used to name resources created as part of this stack (and inside nested stacks too).
@@ -24,7 +24,7 @@ Resources:
     Type: "Custom::SolutionAssistant"
     Properties:
       ServiceToken: !GetAtt SolutionAssistantLambda.Arn
-      ResourceName: !Ref ResourceName
+      SolutionPrefix: !Ref SolutionPrefix
       S3BucketName: !Ref S3BucketName
       SolutionsS3BucketName: !Ref SolutionsS3BucketName
       ECRRepository: !Ref ECRRepository
@@ -32,7 +32,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Handler: "lambda_function.handler"
-      FunctionName: !Sub "${ResourceName}-solution-assistant"
+      FunctionName: !Sub "${SolutionPrefix}-solution-assistant"
       Role: !GetAtt SolutionAssistantLambdaRole.Arn
       Runtime: "python3.8"
       Code:
@@ -104,7 +104,7 @@ Resources:
                 - ecr:BatchDeleteImage
               Resource:
                 - !Sub "arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/${ECRRepository}"
-      RoleName: !Sub ${ResourceName}-${AWS::Region}-lambda-role
+      RoleName: !Sub ${SolutionPrefix}-${AWS::Region}-lambda-role
     Metadata:
       cfn_nag:
         rules_to_suppress:
