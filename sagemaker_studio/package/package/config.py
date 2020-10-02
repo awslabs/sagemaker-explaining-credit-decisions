@@ -14,7 +14,7 @@ SAGEMAKER_MODE = cfn_stack_outputs['SagemakerMode']
 
 AWS_ACCOUNT_ID = cfn_stack_outputs['AwsAccountId']
 AWS_REGION = cfn_stack_outputs['AwsRegion']
-AWS_PROFILE = 'sm-soln' if SAGEMAKER_MODE == 'Studio' else 'default' 
+AWS_PROFILE = 'default'
 
 SOLUTION_PREFIX = cfn_stack_outputs['SolutionPrefix']
 
@@ -35,5 +35,3 @@ CODE_BUILD_PROJECT = cfn_stack_outputs['ContainerBuildProject']
 DOCKER_CONFIG = '/home/ec2-user/.docker/config.json'
 
 TAG_KEY = 'sagemaker-solution'
-
-NOTEBOOKS_PATH = Path(current_folder, '../../notebooks').resolve()

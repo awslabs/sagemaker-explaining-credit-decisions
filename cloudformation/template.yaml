@@ -13,9 +13,7 @@ Parameters:
       constraints because it's used to name resources with restrictions (e.g. Amazon S3 bucket
       names cannot contain capital letters).
     AllowedPattern: '^sm-soln-explaining-[a-z0-9\-]{1,20}$'
-    ConstraintDescription: |
-      Only allowed to use lowercase letters, hyphens and/or numbers.
-      Should also start with 'sm-soln-explaining-' for permission management.
+    ConstraintDescription: Only allowed to use lowercase letters, hyphens and/or numbers. Should start with 'sm-soln-explaining-' for permission management. Should be 39 characters or less.
   CreateSageMakerNotebookInstance:
     Description: Create a SageMaker Notebook Instance as part of the stack?
     Type: String
