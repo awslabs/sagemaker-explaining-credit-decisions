@@ -9,7 +9,7 @@ astor==0.8.1              # via streamlit
 attrs==19.3.0             # via jsonschema
 backcall==0.1.0           # via ipython
 base58==2.0.0             # via streamlit
-bleach==3.1.5             # via nbconvert
+bleach==3.3.0             # via nbconvert
 blinker==1.4              # via streamlit
 boto3==1.13.11            # via -r requirements.in, streamlit
 botocore==1.16.11         # via boto3, s3transfer, streamlit
