@@ -14,7 +14,7 @@ docker==4.2.0             # via -r requirements.in
 docutils==0.15.2          # via botocore
 idna==2.9                 # via requests
 importlib-metadata==1.6.0  # via jsonschema, sagemaker
-jinja2==2.11.2            # via -r requirements.in, bokeh
+jinja2==2.11.3            # via -r requirements.in, bokeh
 jmespath==0.9.5           # via boto3, botocore
 jsonschema==3.2.0         # via -r requirements.in
 markupsafe==1.1.1         # via jinja2
