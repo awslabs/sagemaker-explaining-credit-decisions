@@ -29,7 +29,7 @@ pyrsistent==0.16.0        # via jsonschema
 python-dateutil==2.8.1    # via bokeh, botocore, pandas
 python-dotenv==0.13.0     # via -r requirements.in
 pytz==2020.1              # via pandas
-pyyaml==5.3.1             # via bokeh
+pyyaml==5.4.0             # via bokeh
 requests==2.23.0          # via docker
 s3transfer==0.3.3         # via boto3
 sagemaker==1.55.4         # via -r requirements.in
